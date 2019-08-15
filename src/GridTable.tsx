@@ -148,8 +148,11 @@ class GridTable extends React.PureComponent<GridTableProps> {
   }
 }
 
-export interface GridTableProps<T = any> extends Omit<FixedSizeGridProps, 'rowCount' | 'overscanColumnCount' | 'columnCount'> {
+export interface GridTableProps<T = any> extends FixedSizeGridProps {
   containerStyle?: React.CSSProperties;
+  columnWidth?: number;
+  columnCount?: number;
+  rowCount?: number;
   classPrefix?: string;
   headerHeight: number | number [];
   headerWidth: number;

@@ -15,6 +15,7 @@ export interface TableHeaderProps<T = any> {
   frozenData?: T[],
   headerRenderer: ITableHeaderCB<IHeaderRendererParam, React.ReactElement>;
   rowRenderer: ITableHeaderCB<RendererArgs, React.ReactNode>;
+  hoveredRowKey: any;
 };
 
 class TableHeader extends React.PureComponent<TableHeaderProps> {

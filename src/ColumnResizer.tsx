@@ -158,6 +158,10 @@ export interface IOnResizeStartCBParam {
 }
 export interface IColumnResizerProps {
   /**
+   * className
+   */
+  className?: string;
+  /**
    * Custom style for the drag handler
    */
   style?: React.CSSProperties;
