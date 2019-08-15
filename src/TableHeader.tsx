@@ -13,8 +13,8 @@ export interface TableHeaderProps<T = any> {
   columns: IColumnProps[];
   data: T[],
   frozenData?: T[],
-  headerRenderer: ITableHeaderCB<IHeaderRendererParam, React.ReactElement>;
-  rowRenderer: ITableHeaderCB<RendererArgs, React.ReactNode>;
+  headerRenderer: React.ComponentType<IHeaderRendererParam>;
+  rowRenderer: React.ComponentType<RendererArgs>;
   hoveredRowKey: any;
 };
 
@@ -73,7 +73,5 @@ class TableHeader extends React.PureComponent<TableHeaderProps> {
     this.headerRef = ref;
   }
 }
-
-type ITableHeaderCB<T, S> = (in_obj: T) => S;
 
 export default TableHeader;

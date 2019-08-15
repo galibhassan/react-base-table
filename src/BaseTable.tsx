@@ -930,7 +930,7 @@ interface IRenderRowCellParam extends IColumnEssential, IRowEssential {
 
 export interface IRenderExpandIcon extends IRowEssential {
   depth?: number;
-  onExpand?: TBaseTableCallback<string[], void>;
+  onExpand?: (param: string[]) => void
 }
 
 interface IRenderHeaderCellParam extends IColumnEssential {
@@ -938,11 +938,12 @@ interface IRenderHeaderCellParam extends IColumnEssential {
   expandIcon: any;
 }
 
-interface ICellProps extends IColumnEssential, IRowEssential{
+export interface ICellProps extends IColumnEssential, IRowEssential{
   tagName?: any;
   isScrolling?: boolean;
   cellData?: any;
-  container: any;
+  container?: any;
+  expandIcon?: React.ElementType;
 }
 
 export interface IRowRendererCBParam {
@@ -1045,25 +1046,25 @@ export interface IBaseTableProps<T = any> {
   /**
    * Custom renderer on top of the table component
    */
-  overlayRenderer?: TBaseTableCallback<any, React.ReactElement> | React.ReactElement;
+  overlayRenderer?: React.ComponentType<any> | React.ReactElement;
   /**
    * Custom renderer when the length of data is 0
    */
-  emptyRenderer?: TBaseTableCallback<any, React.ReactElement> | React.ReactElement;
+  emptyRenderer?: React.ComponentType<any> | React.ReactElement;
   /**
    * Custom footer renderer, available only if `footerHeight` is larger then 0
    */
-  footerRenderer?: TBaseTableCallback<any, React.ReactElement> | React.ReactElement;
+  footerRenderer?: React.ComponentType<any> | React.ReactElement;
   /**
    * Custom header renderer
    * The renderer receives props `{ cells, columns, headerIndex }`
    */
-  headerRenderer?: TBaseTableCallback<any, React.ReactElement> | React.ReactElement;
+  headerRenderer?: React.ComponentType<any> | React.ReactElement;
   /**
    * Custom row renderer
    * The renderer receives props `{ isScrolling, cells, columns, rowData, rowIndex, depth }`
    */
-  rowRenderer?: TBaseTableCallback<any, React.ReactElement> | React.ReactElement;
+  rowRenderer?: React.ComponentType<any> | React.ReactElement;
   /**
    * Class name for the table header, could be a callback to return the class name
    * The callback is of the shape of `({ columns, headerIndex }) => string`

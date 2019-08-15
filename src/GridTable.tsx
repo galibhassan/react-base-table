@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { FixedSizeGrid as Grid, GridOnItemsRenderedProps, Align, FixedSizeGridProps } from 'react-window';
+import { FixedSizeGrid as Grid, GridOnItemsRenderedProps, Align, FixedSizeGridProps, GridChildComponentProps } from 'react-window';
 
 import { IOnRowsRenderedParam, RendererArgs } from './BaseTable';
 import Header from './TableHeader';
@@ -36,9 +36,10 @@ class GridTable extends React.PureComponent<GridTableProps> {
   }
 
   public renderRow: FixedSizeGridProps['children'] = (args) => {
-    const { data, columns, rowRenderer } = this.props;
+    const { data, columns, rowRenderer: RowRenderer } = this.props;
     const rowData = data[args.rowIndex];
-    return rowRenderer({ ...args, columns, rowData });
+    const newProps: RendererArgs = { ...args, columns, rowData };
+    return <RowRenderer {...newProps}/>;
   }
 
   render() {
@@ -148,11 +149,12 @@ class GridTable extends React.PureComponent<GridTableProps> {
   }
 }
 
-export interface GridTableProps<T = any> extends FixedSizeGridProps {
+// export interface GridTableProps<T = any> extends FixedSizeGridProps {
+export interface GridTableProps<T = any> extends Omit<FixedSizeGridProps, 'rowCount' | 'overscanColumnCount' | 'columnCount'> {
   containerStyle?: React.CSSProperties;
   columnWidth?: number;
-  columnCount?: number;
-  rowCount?: number;
+  // columnCount?: number;
+  // rowCount?: number;
   classPrefix?: string;
   headerHeight: number | number [];
   headerWidth: number;
@@ -163,10 +165,10 @@ export interface GridTableProps<T = any> extends FixedSizeGridProps {
   frozenData?: T[];
   overscanRowCount?: number;
   hoveredRowKey?: string | number;
-  onScrollbarPresenceChange?: TGridTableCallback<IOnScrollbarPresenceChange, void>;
+  onScrollbarPresenceChange?: (params: IOnScrollbarPresenceChange)=> void;
   onRowsRendered?: TGridTableCallback<IOnRowsRenderedParam, void>;
-  headerRenderer: TGridTableCallback<IHeaderRendererParam, React.ReactElement>;
-  rowRenderer: TGridTableCallback<RendererArgs, React.ReactNode>;
+  headerRenderer: React.ComponentType<IHeaderRendererParam>;
+  rowRenderer: React.ComponentType<RendererArgs>;
 };
 
 interface IOnScrollbarPresenceChange {
