@@ -5,13 +5,13 @@ import { renderElement } from './utils';
 import { ICellRendererCBParam, IColumnRenderCallback, IColumnProps } from './Column';
 import { IHeaderRendererParam } from './GridTable';
 
-export interface ITableHeaderRowProps {
+export interface ITableHeaderRowProps<T=any> {
   isScrolling: boolean;
   className: string;
   style: React.CSSProperties,
   columns: IColumnProps[],
   headerIndex: number;
-  cellRenderer: IColumnRenderCallback<ICellRendererCBParam>;
+  cellRenderer: IColumnRenderCallback<ICellRendererCBParam<T>>;
   headerRenderer: React.ComponentType<IHeaderRendererParam>;
   expandColumnKey: string;
   expandIcon: React.ElementType;
