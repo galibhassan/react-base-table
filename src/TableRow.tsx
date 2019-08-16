@@ -6,7 +6,7 @@ import { ICellRendererCBParam, IColumnEssential, IRowEssential } from './Column'
 type handlerArgs = { rowData: any, rowIndex: number, rowKey: string | number, event: Event };
 export type handlerCollection = {[key: string]: (args: handlerArgs) => void};
 
-export interface ITableRowProps extends IColumnEssential, IRowEssential {
+export interface ITableRowProps<T> extends IColumnEssential, IRowEssential<T> {
   isScrolling: boolean;
   className: string;
   style: React.CSSProperties;
@@ -16,8 +16,8 @@ export interface ITableRowProps extends IColumnEssential, IRowEssential {
   depth?: number;
   rowEventHandlers?: handlerCollection;
   rowRenderer: React.ComponentType<IRowRendererCBParam>;
-  cellRenderer: React.ComponentType<ICellRendererCBParam>;
-  expandIconRenderer: React.ComponentType<IRenderExpandIcon>;
+  cellRenderer: React.ComponentType<ICellRendererCBParam<T>>;
+  expandIconRenderer: React.ComponentType<IRenderExpandIcon<T>>;
   onRowHover: (args: IOnRowHover) => void;
   onRowExpand: (args: IOnRowExpandCBParam) => any;
   tagName: React.ElementType;
@@ -26,7 +26,7 @@ export interface ITableRowProps extends IColumnEssential, IRowEssential {
 /**
  * Row component for BaseTable
  */
-class TableRow extends React.PureComponent<ITableRowProps> {
+class TableRow extends React.PureComponent<ITableRowProps<T>> {
   public render() {
     /* eslint-disable no-unused-vars */
     const {
@@ -53,11 +53,11 @@ class TableRow extends React.PureComponent<ITableRowProps> {
     } = this.props;
     /* eslint-enable no-unused-vars */
 
-    const expandIconProps: IRenderExpandIcon = { rowData, rowIndex, depth, onExpand: this.handleExpand };
+    const expandIconProps: IRenderExpandIcon<T> = { rowData, rowIndex, depth, onExpand: this.handleExpand };
     const expandIcon = <ExpandIconRenderer {...expandIconProps}/>;
 
     let cells = columns.map((column, columnIndex) => {
-        const cellProps: ICellProps = {
+        const cellProps: ICellProps<T> = {
           isScrolling,
           columns,
           column,

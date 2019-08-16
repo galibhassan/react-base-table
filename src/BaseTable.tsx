@@ -189,7 +189,7 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
     });
   }
 
-  public renderExpandIcon = ({ rowData, rowIndex, depth, onExpand }: IRenderExpandIcon) => {
+  public renderExpandIcon = ({ rowData, rowIndex, depth, onExpand }: IRenderExpandIcon<T>) => {
     const { rowKey, expandColumnKey, expandIconProps } = this.props;
     if (!expandColumnKey) return null;
 
@@ -243,7 +243,7 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
   }
 
   public renderRowCell = ({ isScrolling, columns, column, columnIndex, rowData, rowIndex, expandIcon } : 
-    IRenderRowCellParam) => {
+    IRenderRowCellParam<T>) => {
     if (column[ColumnManager.PlaceholderKey]) {
       return (
         <div
@@ -260,7 +260,7 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
     const cellData = dataGetter
       ? dataGetter({ columns, column, columnIndex, rowData, rowIndex })
       : getValue(rowData, dataKey);
-    const cellProps: ICellProps = { isScrolling, cellData, columns, column, columnIndex, rowData, rowIndex, container: this };
+    const cellProps: ICellProps<T> = { isScrolling, cellData, columns, column, columnIndex, rowData, rowIndex, container: this };
     const cell = renderElement(cellRenderer || <TableCell className={this._prefixClass('row-cell-text')} />, cellProps);
 
     const cellCls = callOrReturn(className, { cellData, columns, column, columnIndex, rowData, rowIndex });
@@ -879,7 +879,7 @@ interface IEventTargetExtended extends EventTarget{
   }
 }
 
-interface IRowProps extends ITableRowProps {
+interface IRowProps extends ITableRowProps<T> {
   role: string;
   key: string;
 }
@@ -916,12 +916,12 @@ export interface IOnRowsRenderedParam {
   stopIndex?: number;
 }
 
-interface IRenderRowCellParam extends IColumnEssential, IRowEssential {
+interface IRenderRowCellParam<T> extends IColumnEssential, IRowEssential<T> {
   isScrolling: boolean;
   expandIcon: React.ElementType;
 }
 
-export interface IRenderExpandIcon extends IRowEssential {
+export interface IRenderExpandIcon<T> extends IRowEssential<T> {
   depth?: number;
   onExpand?: (param: string[]) => void
 }
@@ -931,7 +931,7 @@ interface IRenderHeaderCellParam extends IColumnEssential {
   expandIcon: React.ElementType;
 }
 
-export interface ICellProps extends IColumnEssential, IRowEssential{
+export interface ICellProps<T> extends IColumnEssential, IRowEssential<T>{
   tagName?: any;
   isScrolling?: boolean;
   cellData?: any;
@@ -1093,7 +1093,7 @@ export interface IBaseTableProps<T = any> {
    * Extra props applied to row cell element
    * The handler is of the shape of `({ columns, column, columnIndex, rowData, rowIndex }) => object`
    */
-  cellProps?: ICellProps | ((param: ICellProps) =>  ICellProps);
+  cellProps?: ICellProps<T> | ((param: ICellProps<T>) =>  ICellProps<T>);
   /**
    * Extra props applied to ExpandIcon component
    * The handler is of the shape of `({ rowData, rowIndex, depth, expandable, expanded }) => object`
