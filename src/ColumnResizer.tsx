@@ -151,7 +151,7 @@ interface IHTMLElementExtended extends HTMLElement {
   type?: string
 };
 
-type IColumnResizerCallBack<T> = (in_obj: T) => any;
+type IColumnResizerCallBack<T> = (param: T) => any;
 export interface IOnResizeStartCBParam {
   column? : IColumnProps;
   key?: string | number;

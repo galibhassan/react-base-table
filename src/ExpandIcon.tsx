@@ -55,9 +55,7 @@ export interface IExpandIconProps {
   expanded?: boolean;
   indentSize?: number;
   depth?: number;
-  onExpand?: TOnExpandCB<boolean, void>;
+  onExpand?: (param: boolean) => void;
 }
-
-type TOnExpandCB<T, S> = (in_obj: T) => S;
 
 export default ExpandIcon;

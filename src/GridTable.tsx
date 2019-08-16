@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { FixedSizeGrid as Grid, GridOnItemsRenderedProps, Align, FixedSizeGridProps, GridChildComponentProps } from 'react-window';
+import { FixedSizeGrid as Grid, GridOnItemsRenderedProps, Align, FixedSizeGridProps } from 'react-window';
 
 import { IOnRowsRenderedParam, RendererArgs } from './BaseTable';
 import Header from './TableHeader';
@@ -149,12 +149,10 @@ class GridTable extends React.PureComponent<GridTableProps> {
   }
 }
 
-// export interface GridTableProps<T = any> extends FixedSizeGridProps {
-export interface GridTableProps<T = any> extends Omit<FixedSizeGridProps, 'rowCount' | 'overscanColumnCount' | 'columnCount'> {
+type TBaseGridTableProps = Omit<FixedSizeGridProps, 'rowCount' | 'overscanColumnCount' | 'columnCount'>;
+export interface GridTableProps<T = any> extends TBaseGridTableProps {
   containerStyle?: React.CSSProperties;
   columnWidth?: number;
-  // columnCount?: number;
-  // rowCount?: number;
   classPrefix?: string;
   headerHeight: number | number [];
   headerWidth: number;
@@ -166,7 +164,7 @@ export interface GridTableProps<T = any> extends Omit<FixedSizeGridProps, 'rowCo
   overscanRowCount?: number;
   hoveredRowKey?: string | number;
   onScrollbarPresenceChange?: (params: IOnScrollbarPresenceChange)=> void;
-  onRowsRendered?: TGridTableCallback<IOnRowsRenderedParam, void>;
+  onRowsRendered?: (param: IOnRowsRenderedParam) => void;
   headerRenderer: React.ComponentType<IHeaderRendererParam>;
   rowRenderer: React.ComponentType<RendererArgs>;
 };
@@ -183,7 +181,5 @@ export interface IHeaderRendererParam {
   style?: React.CSSProperties;
   headerIndex?: number;
 }
-
-type TGridTableCallback<T, S> = (in_obj: T) => S;
 
 export default GridTable;

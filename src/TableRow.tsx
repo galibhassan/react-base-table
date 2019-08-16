@@ -56,20 +56,21 @@ class TableRow extends React.PureComponent<ITableRowProps> {
     const expandIconProps: IRenderExpandIcon = { rowData, rowIndex, depth, onExpand: this.handleExpand };
     const expandIcon = <ExpandIconRenderer {...expandIconProps}/>;
 
-    const cellProps: ICellProps = {
-      isScrolling, 
-      columns, 
-      column, 
-      columnIndex, 
-      rowData, 
-      rowIndex, 
-      expandIcon: column.key === expandColumnKey && expandIcon,
-    }
-
-    
-    let cells = columns.map((column, columnIndex) => { 
-      return <CellRenderer {...cellProps} /> 
-    });
+    let cells = columns.map((column, columnIndex) => {
+        const cellProps: ICellProps = {
+          isScrolling,
+          columns,
+          column,
+          columnIndex,
+          rowData,
+          rowIndex,
+        };
+        if(column.key === expandColumnKey) {
+          (cellProps.expandIcon as React.ReactNode) = expandIcon;
+        }
+        return <CellRenderer {...cellProps} />
+      }
+    );
 
     if (rowRenderer) {
       cells = renderElement(rowRenderer, { isScrolling, cells, columns, rowData, rowIndex, depth });

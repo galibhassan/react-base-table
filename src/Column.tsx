@@ -34,8 +34,8 @@ export interface IRowEssential {
   rowIndex?: number;
 }
 
-export type IColumnCallback<T> = (in_obj: T) => string;
-export type IColumnRenderCallback<T> = (in_obj: T) => React.ReactElement;
+export type IColumnCallback<T> = (param: T) => string;
+export type IColumnRenderCallback<T> = (param: T) => React.ReactElement;
 
 export interface IClassNameCBParam extends IColumnEssential, IRowEssential {
   cellData: any;
@@ -48,8 +48,9 @@ export interface IHeaderClassNameCBParam extends IColumnEssential {
 export interface IDataGetterCBParam extends IColumnEssential, IRowEssential {}
 
 export interface IHeaderRendererCBParam extends IColumnEssential {
-  headerIndex: number, 
-  container: any
+  headerIndex?: number;
+  container?: any;
+  style?: React.CSSProperties;
 }
 
 export interface ICellRendererCBParam extends IColumnEssential, IRowEssential {

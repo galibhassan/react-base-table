@@ -1,7 +1,7 @@
 import React from 'react';
 import { IHeaderRendererParam } from './GridTable'
-import { IColumnProps } from './Column';
-import { RendererArgs } from './BaseTable';
+import { IColumnProps, IHeaderRendererCBParam } from './Column';
+import { RendererArgs, IRowRendererCBParam } from './BaseTable';
 
 export interface TableHeaderProps<T = any> {
   className?: string;
@@ -27,19 +27,21 @@ class TableHeader extends React.PureComponent<TableHeaderProps> {
   }
 
   public renderHeaderRow = (height: number, index: number) => {
-    const { columns, headerRenderer } = this.props;
+    const { columns, headerRenderer: HeaderRenderer } = this.props;
     if (height <= 0) return null;
 
     const style: React.CSSProperties = { width: '100%', height };
-    return headerRenderer({ style, columns, headerIndex: index });
+    const headerProps: IHeaderRendererCBParam = { style, columns, headerIndex: index };
+    return <HeaderRenderer {...headerProps} />;
   }
 
   public renderFrozenRow = (rowData: any, index: number) => {
-    const { columns, rowHeight, rowRenderer } = this.props;
+    const { columns, rowHeight, rowRenderer: RowRenderer } = this.props;
     const style = { width: '100%', height: rowHeight };
     // for frozen row the `rowIndex` is negative
     const rowIndex = -index - 1;
-    return rowRenderer({ style, columns, rowData, rowIndex });
+    const rowProps: IRowRendererCBParam = { style, columns, rowData, rowIndex };
+    return <RowRenderer {...rowProps}/>;
   }
 
   public render() {

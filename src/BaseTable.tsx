@@ -776,7 +776,7 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
     if (args.scrollTop > lastScrollTop) this._maybeCallOnEndReached();
   }
 
-  private _handleVerticalScroll = ({ scrollTop }: _handleVerticalScrollParam) => {
+  private _handleVerticalScroll = ({ scrollTop }: {scrollTop: number}) => {
     const lastScrollTop = this._scroll.scrollTop;
     this.scrollToTop(scrollTop);
 
@@ -815,8 +815,8 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
     this.props.onExpandedRowsChange(expandedRowKeys);
   }
 
-  _handleColumnResize(in_obj: IOnResizeCBParam) {
-    const {key, width} = in_obj; 
+  _handleColumnResize(param: IOnResizeCBParam) {
+    const {key, width} = param; 
     this.columnManager.setColumnWidth(key, width);
     this.setState({ resizingWidth: width });
 
@@ -874,8 +874,6 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
   };
 }
 
-export type TBaseTableCallback<T, S> = (in_obj: T) => S; 
-
 interface IEventTargetExtended extends EventTarget{
   dataset?: {
     key: any;
@@ -906,10 +904,6 @@ interface IOffset {
 
 interface ISortState {
   [sortKey: string] : string
-}
-
-interface _handleVerticalScrollParam {
-  scrollTop: number;
 }
 
 interface IHandleColumnResizeStartParam {
@@ -957,7 +951,6 @@ export interface IRowRendererCBParam {
   rowData?: any;
   rowIndex?: number;
   depth?: number;
-
 }
 
 export interface IOnRowHover {
@@ -1069,54 +1062,50 @@ export interface IBaseTableProps<T = any> {
    * Class name for the table header, could be a callback to return the class name
    * The callback is of the shape of `({ columns, headerIndex }) => string`
    */
-  headerClassName?: string | TBaseTableCallback<{columns: IColumnProps[]; headerIndex: number;}, string>;
+  headerClassName?: string | ((param: {columns: IColumnProps[]; headerIndex: number}) => string);
   /**
    * Class name for the table row, could be a callback to return the class name
    * The callback is of the shape of `({ columns, rowData, rowIndex }) => string`
    */
-  rowClassName?: string | TBaseTableCallback<{columns: IColumnProps[]; rowData: any; rowIndex: number;}, string>
+  rowClassName?: string | ((param: {columns: IColumnProps[]; rowData: any; rowIndex: number}) => string);
   /**
    * Extra props applied to header element
    * The handler is of the shape of `({ columns, headerIndex }) => object`
    */
-  headerProps?: IHeaderProps | TBaseTableCallback<{columns: IColumnProps[]; headerIndex: number; }, IHeaderProps>;
+  headerProps?: IHeaderProps | ((param:{columns: IColumnProps[]; headerIndex: number; }) => IHeaderProps);
   /**
    * Extra props applied to header cell element
    * The handler is of the shape of `({ columns, column, columnIndex, headerIndex }) => object`
    */
-  headerCellProps?: ITableHeaderCellProps | TBaseTableCallback<
-      {
+  headerCellProps?: ITableHeaderCellProps |
+    ((param : {
         columns: IColumnProps[];
         column: IColumnProps;
         columnIndex: number;
         headerIndex: number;
-      },
-      ITableHeaderCellProps
-    >;
+    }) => ITableHeaderCellProps);
   /**
    * Extra props applied to row element
    * The handler is of the shape of `({ columns, rowData, rowIndex }) => object`
    */
-  rowProps?: IRowProps | TBaseTableCallback<{ columns: IColumnProps[]; rowData: any; rowIndex: number; }, IRowProps>;
+  rowProps?: IRowProps | ((param: { columns: IColumnProps[]; rowData: any; rowIndex: number }) => IRowProps);
   /**
    * Extra props applied to row cell element
    * The handler is of the shape of `({ columns, column, columnIndex, rowData, rowIndex }) => object`
    */
-  cellProps?: ICellProps | TBaseTableCallback<ICellProps, ICellProps>;
+  cellProps?: ICellProps | ((param: ICellProps) =>  ICellProps);
   /**
    * Extra props applied to ExpandIcon component
    * The handler is of the shape of `({ rowData, rowIndex, depth, expandable, expanded }) => object`
    */
-  expandIconProps?: IExpandIconProps | TBaseTableCallback<
-      {
+  expandIconProps?: IExpandIconProps | 
+    ((param: {
         rowData?: any;
         rowIndex?: number;
         depth?: number;
         expandable?: boolean;
         expanded?: boolean;
-      }, 
-      IExpandIconProps
-    >;
+    }) => IExpandIconProps);
   /**
    * The key for the expand column which render the expand icon if the data is a tree
    */
@@ -1133,12 +1122,12 @@ export interface IBaseTableProps<T = any> {
    * A callback function when expand or collapse a tree node
    * The handler is of the shape of `({ expanded, rowData, rowIndex, rowKey }) => *`
    */
-  onRowExpand?: TBaseTableCallback<IOnRowExpandCBParam, any>;
+  onRowExpand?: (param: IOnRowExpandCBParam) => any;
   /**
    * A callback function when the expanded row keys changed
    * The handler is of the shape of `(expandedRowKeys) => *`
    */
-  onExpandedRowsChange?: TBaseTableCallback<TExpandedRowKeys, any>;
+  onExpandedRowsChange?: (param: TExpandedRowKeys) => any;
   /**
    * The sort state for the table, will be ignored if `sortState` is set
    */
@@ -1168,12 +1157,12 @@ export interface IBaseTableProps<T = any> {
    * A callback function for the header cell click event
    * The handler is of the shape of `({ column, key, order }) => *`
    */
-  onColumnSort?: TBaseTableCallback<{column: IColumnProps; key: any; order: any;}, any>,
+  onColumnSort?: (param: {column: IColumnProps; key: any; order: any}) => any;
   /**
    * A callback function when resizing the column width
    * The handler is of the shape of `({ column, width }) => *`
    */
-  onColumnResize?: TBaseTableCallback<{ column: IColumnProps; width: number }, any>;
+  onColumnResize?: (param: { column: IColumnProps; width: number }) => any;
   /**
    * Adds an additional isScrolling parameter to the row renderer.
    * This parameter can be used to show a placeholder row while scrolling.
@@ -1198,20 +1187,19 @@ export interface IBaseTableProps<T = any> {
    * `scrollUpdateWasRequested` is a boolean. This value is true if the scroll was caused by `scrollTo*`,
    * and false if it was the result of a user interaction in the browser.
    */
-  onScroll?: TBaseTableCallback<{
+  onScroll?:
+    (param: {
         scrollLeft?: number;
         scrollTop?: number;
         horizontalScrollDirection?: string;
         verticalScrollDirection?: string;
         scrollUpdateWasRequested?: boolean;
-      }, 
-      any
-    >;
+    }) => any;
   /**
    * A callback function when scrolling the table within `onEndReachedThreshold` of the bottom
    * The handler is of the shape of `({ distanceFromEnd }) => *`
    */
-  onEndReached?: TBaseTableCallback<{distanceFromEnd?: number}, any>;
+  onEndReached?: (param: {distanceFromEnd?: number}) => any;
   /**
    * Threshold in pixels for calling `onEndReached`.
    */
@@ -1220,25 +1208,21 @@ export interface IBaseTableProps<T = any> {
    * A callback function with information about the slice of rows that were just rendered
    * The handler is of the shape of `({ overscanStartIndex, overscanStopIndex, startIndex， stopIndex }) => *`
    */
-  onRowsRendered?: TBaseTableCallback<{
+  onRowsRendered?: (param: {
       overscanStartIndex?: number;
       overscanStopIndex?: number;
       startIndex?: number;
       stopIndex?: number;
-    }, 
-    any
-  >;
+    }) => any;
   /**
    * A callback function when the scrollbar presence state changed
    * The handler is of the shape of `({ size, vertical, horizontal }) => *`
    */
-  onScrollbarPresenceChange?: TBaseTableCallback<{
+  onScrollbarPresenceChange?: (param: {
       size?: number;
       vertical?: boolean;
       horizontal?: boolean;
-    },
-    any
-  >;
+    }) =>any;
   /**
    * An object for the row event handlers
    * Each of the keys is row event name, like `onClick`, `onDoubleClick` and etc.
