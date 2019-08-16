@@ -127,7 +127,7 @@ export default class ColumnManager {
     });
   }
 
-  getColumn(key: string) {
+  getColumn(key: IColumnProps['key']) {
     const idx = this._columns.findIndex(column => column.key === key);
     return this._columns[idx];
   }
@@ -154,7 +154,7 @@ export default class ColumnManager {
     return columns.reduce((width, column) => width + column.width, 0);
   }
 
-  setColumnWidth(key: string, width: number) {
+  setColumnWidth(key: IColumnProps['key'], width: number) {
     const column = this.getColumn(key);
     column.width = width;
     this._cached = {};

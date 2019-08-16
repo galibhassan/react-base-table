@@ -135,8 +135,7 @@ class ColumnResizer extends React.PureComponent<IColumnResizerProps> {
     }
 
     if (newWidth === width) return;
-    let onResizeParam = {column, newWidth}
-    this.props.onResize(onResizeParam);
+    this.props.onResize(column, newWidth);
   }
 
   public static defaultProps = {
@@ -179,7 +178,7 @@ export interface IColumnResizerProps {
    * A callback function when resizing the column
    * The callback is of the shape of `(column, width) => *`
    */
-  onResize?: IColumnResizerCallBack<IOnResizeCBParam>
+  onResize?: (param1?: IColumnProps, width?: number, column?: IColumnProps) => any;
   /**
    * A callback function when resizing stopped
    * The callback is of the shape of `(column) => *`
@@ -191,9 +190,4 @@ export interface IColumnResizerProps {
   minWidth?: number;
 };
 
-export interface IOnResizeCBParam {
-  key?: string | null;
-  width?: number;
-  newWidth?: number;
-}
 export default ColumnResizer;

@@ -3,7 +3,7 @@ import memoize from 'memoize-one';
 import React from 'react';
 import Column, { Alignment, FrozenDirection, IColumnProps } from './Column';
 import ColumnManager from './ColumnManager';
-import ColumnResizer, {IOnResizeCBParam} from './ColumnResizer';
+import ColumnResizer from './ColumnResizer';
 import ExpandIcon, {IExpandIconProps} from './ExpandIcon';
 import GridTable, {IHeaderRendererParam} from './GridTable';
 import SortIndicator, {TSortIndicator} from './SortIndicator';
@@ -800,7 +800,7 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
     { expanded, rowData, rowIndex, rowKey }: {expanded: string[], rowData: any, rowIndex: number, rowKey: string}) => {
     const expandedRowKeys = cloneArray(this.state.expandedRowKeys);
     if (expanded) {
-      if (expandedRowKeys.indexOf(rowKey) >= 0) expandedRowKeys.push(rowKey);
+      if (!(expandedRowKeys.indexOf(rowKey) >= 0)) expandedRowKeys.push(rowKey);
     } else {
       const index = expandedRowKeys.indexOf(rowKey);
       if (index > -1) {
@@ -815,8 +815,7 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
     this.props.onExpandedRowsChange(expandedRowKeys);
   }
 
-  _handleColumnResize(param: IOnResizeCBParam) {
-    const {key, width} = param; 
+  _handleColumnResize = ({key}: IColumnProps, width: number) => {
     this.columnManager.setColumnWidth(key, width);
     this.setState({ resizingWidth: width });
 
@@ -919,7 +918,7 @@ export interface IOnRowsRenderedParam {
 
 interface IRenderRowCellParam extends IColumnEssential, IRowEssential {
   isScrolling: boolean;
-  expandIcon: any;
+  expandIcon: React.ElementType;
 }
 
 export interface IRenderExpandIcon extends IRowEssential {
@@ -929,7 +928,7 @@ export interface IRenderExpandIcon extends IRowEssential {
 
 interface IRenderHeaderCellParam extends IColumnEssential {
   headerIndex: number;
-  expandIcon: any;
+  expandIcon: React.ElementType;
 }
 
 export interface ICellProps extends IColumnEssential, IRowEssential{
@@ -969,6 +968,7 @@ export interface IOnRowExpandCBParam {
 }
 
 export type TExpandedRowKeys = string[] | number[];
+
 
 export interface IBaseTableProps<T = any> {
   /**
