@@ -1,9 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import BaseTable from './BaseTable';
+import BaseTable, {IBaseTableProps} from './BaseTable';
 
-const RENDERER = () => null;
+type TRenderer = () => null;
+const RENDERER:TRenderer = () => null;
 
 const columns = [
   {
@@ -33,7 +34,8 @@ const data = [
   },
 ];
 
-const Table = props => <BaseTable width={100} height={100} data={data} columns={columns} {...props} />;
+type TTable = (param: IBaseTableProps) => any;
+const Table:TTable = props => <BaseTable width={100} height={100} data={data} columns={columns} {...props} />;
 
 describe('Table', function() {
   test('renders correctly', () => {

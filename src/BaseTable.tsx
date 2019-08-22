@@ -33,6 +33,8 @@ const DEFAULT_COMPONENTS = {
 };
 
 const RESIZE_THROTTLE_WAIT = 50;
+const DEFAULT_COLUMN_WIDTH = 5;
+
 
 export type RendererArgs = GridChildComponentProps & {rowData?: any, columns?: IColumnProps[]};
 /**
@@ -419,6 +421,7 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
         rowRenderer={this.renderRow}
         onScroll={this._handleScroll}
         onRowsRendered={this._handleRowsRendered}
+        columnWidth={DEFAULT_COLUMN_WIDTH}
       />
     );
   }
@@ -450,6 +453,7 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
         rowRenderer={this.renderRow}
         onScroll={this._handleVerticalScroll}
         onRowsRendered={noop}
+        columnWidth={DEFAULT_COLUMN_WIDTH}
       />
     );
   }
@@ -481,6 +485,7 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
         rowRenderer={this.renderRow}
         onScroll={this._handleVerticalScroll}
         onRowsRendered={noop}
+        columnWidth={DEFAULT_COLUMN_WIDTH}
       />
     );
   }
@@ -986,7 +991,7 @@ export interface IBaseTableProps<T = any> {
   /**
    * A collection of Column
    */
-  children: React.ReactElement<IColumnProps>[];
+  children?: React.ReactElement<IColumnProps>[];
   /**
    * Columns for the table
    */
@@ -1002,11 +1007,11 @@ export interface IBaseTableProps<T = any> {
   /**
    * The key field of each data item
    */
-  rowKey: string | number;
+  rowKey?: string | number;
   /**
    * The width of the table
    */
-  width: number;
+  width?: number;
   /**
    * The height of the table, will be ignored if `maxHeight` is set
    */
@@ -1019,11 +1024,11 @@ export interface IBaseTableProps<T = any> {
   /**
    * The height of each table row
    */
-  rowHeight: number;
+  rowHeight?: number;
   /**
    * The height of the table header, set to 0 to hide the header, could be an array to render multi headers.
    */
-  headerHeight: number | number[];
+  headerHeight?: number | number[];
   /**
    * The height of the table footer
    */
@@ -1232,7 +1237,7 @@ export interface IBaseTableProps<T = any> {
   /**
    * An object for the custom components, like `ExpandIcon` and `SortIndicator`
    */
-  components: {
+  components?: {
     TableCell: TTableCell;
     TableHeaderCell: TTableHeaderCell;
     ExpandIcon: Function;

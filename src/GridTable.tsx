@@ -152,14 +152,14 @@ class GridTable extends React.PureComponent<GridTableProps> {
 type TBaseGridTableProps = Omit<FixedSizeGridProps, 'rowCount' | 'overscanColumnCount' | 'columnCount' | 'children'>;
 export interface GridTableProps<T = any> extends TBaseGridTableProps {
   containerStyle?: React.CSSProperties;
-  columnWidth?: number;
+  columnWidth: number;
   classPrefix?: string;
-  headerHeight: number | number [];
-  headerWidth: number;
-  bodyWidth: number;
-  columns: IColumnProps[];
-  data: T[];
-  rowKey: string | number;
+  headerHeight?: number | number [];
+  headerWidth?: number;
+  bodyWidth?: number;
+  columns?: IColumnProps[];
+  data?: T[];
+  rowKey?: string | number;
   frozenData?: T[];
   overscanRowCount?: number;
   hoveredRowKey?: string | number;
@@ -167,7 +167,7 @@ export interface GridTableProps<T = any> extends TBaseGridTableProps {
   onRowsRendered?: (param: IOnRowsRenderedParam) => void;
   headerRenderer: React.ComponentType<IHeaderRendererParam>;
   rowRenderer: React.ComponentType<RendererArgs>;
-  children: React.ReactElement<IColumnProps>[];
+  children?: React.ReactElement<IColumnProps>[];
 };
 
 interface IOnScrollbarPresenceChange {

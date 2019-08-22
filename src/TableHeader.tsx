@@ -5,17 +5,17 @@ import { RendererArgs, IRowRendererCBParam } from './BaseTable';
 
 export interface TableHeaderProps<T = any> {
   className?: string;
-  width: string | number;
-  height: string | number;
-  headerHeight: number | number[];
-  rowWidth: number;
-  rowHeight: number | string;
-  columns: IColumnProps[];
-  data: T[],
+  width?: string | number;
+  height?: string | number;
+  headerHeight?: number | number[];
+  rowWidth?: number;
+  rowHeight?: number | string;
+  columns?: IColumnProps[];
+  data?: T[],
   frozenData?: T[],
-  headerRenderer: React.ComponentType<IHeaderRendererParam>;
-  rowRenderer: React.ComponentType<RendererArgs>;
-  hoveredRowKey: any;
+  headerRenderer?: React.ComponentType<IHeaderRendererParam>;
+  rowRenderer?: React.ComponentType<RendererArgs>;
+  hoveredRowKey?: any;
 };
 
 class TableHeader extends React.PureComponent<TableHeaderProps> {

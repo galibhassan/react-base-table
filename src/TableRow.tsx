@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderElement } from './utils';
 import { IRowRendererCBParam, IRenderExpandIcon, IOnRowHover, IOnRowExpandCBParam, ICellProps } from './BaseTable';
-import { ICellRendererCBParam, IColumnEssential, IRowEssential } from './Column';
+import { ICellRendererCBParam, IColumnEssential, IRowEssential, IColumnProps } from './Column';
 
 type handlerArgs = { rowData: any, rowIndex: number, rowKey: string | number, event: Event };
 export type handlerCollection = {[key: string]: (args: handlerArgs) => void};
@@ -56,7 +56,7 @@ class TableRow<T=any> extends React.PureComponent<ITableRowProps<T>> {
     const expandIconProps: IRenderExpandIcon<T> = { rowData, rowIndex, depth, onExpand: this.handleExpand };
     const expandIcon = <ExpandIconRenderer {...expandIconProps}/>;
 
-    let cells = columns.map((column, columnIndex) => {
+    let cells = columns.map((column: IColumnProps, columnIndex: number) => {
         const cellProps: ICellProps<T> = {
           isScrolling,
           columns,

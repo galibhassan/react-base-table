@@ -104,7 +104,7 @@ export interface IColumnProps<T=any>  {
   /**
    * The width of the column, gutter width is not included
    */
-  width: number;
+  width?: number;
   /**
    * Maximum width of the column, used if the column is resizable
    */
@@ -116,7 +116,7 @@ export interface IColumnProps<T=any>  {
   /**
    * Whether the column is frozen and what's the frozen side
    */
-  frozen: 'left'  | 'right' | boolean;
+  frozen?: 'left'  | 'right' | boolean;
   /**
    * Whether the column is hidden
    */
@@ -146,7 +146,7 @@ export interface IColumnProps<T=any>  {
   /**
    * placeholder key
    */
-  __placeholder__: boolean;
+  __placeholder__?: boolean;
 };
 
 export default Column;
