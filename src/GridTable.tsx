@@ -7,7 +7,7 @@ import Header from './TableHeader';
 import { IColumnProps } from './Column'
 
 /**
- * A wrapper of the Grid for internal onlyz
+ * A wrapper of the Grid for internal only
  */
 class GridTable extends React.PureComponent<GridTableProps> {
   private bodyRef?: Grid;
