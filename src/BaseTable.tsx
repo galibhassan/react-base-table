@@ -11,7 +11,7 @@ import SortOrder from './SortOrder';
 import TableCell, {TTableCell} from './TableCell';
 import TableHeaderCell, { TTableHeaderCell, ITableHeaderCellProps } from './TableHeaderCell';
 import TableHeaderRow, {ITableHeaderRowProps} from './TableHeaderRow';
-import TableRow, {ITableRowProps, handlerCollection} from './TableRow';
+import TableRow, {ITableRowProps, THandlerCollection} from './TableRow';
 import { callOrReturn, cloneArray, flattenOnKeys, getScrollbarSize as defaultGetScrollbarSize, getValue, hasChildren,
   isObjectEqual, noop, normalizeColumns, renderElement, throttle } from './utils';
 import { Align, GridChildComponentProps } from 'react-window';
@@ -33,7 +33,6 @@ const DEFAULT_COMPONENTS = {
 };
 
 const RESIZE_THROTTLE_WAIT = 50;
-const DEFAULT_COLUMN_WIDTH = 5;
 
 
 export type RendererArgs = GridChildComponentProps & {rowData?: any, columns?: IColumnProps[]};
@@ -421,7 +420,6 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
         rowRenderer={this.renderRow}
         onScroll={this._handleScroll}
         onRowsRendered={this._handleRowsRendered}
-        columnWidth={DEFAULT_COLUMN_WIDTH}
       />
     );
   }
@@ -453,7 +451,6 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
         rowRenderer={this.renderRow}
         onScroll={this._handleVerticalScroll}
         onRowsRendered={noop}
-        columnWidth={DEFAULT_COLUMN_WIDTH}
       />
     );
   }
@@ -485,7 +482,6 @@ class BaseTable<T=any> extends React.PureComponent<IBaseTableProps<T>, IBaseTabl
         rowRenderer={this.renderRow}
         onScroll={this._handleVerticalScroll}
         onRowsRendered={noop}
-        columnWidth={DEFAULT_COLUMN_WIDTH}
       />
     );
   }
@@ -1007,11 +1003,11 @@ export interface IBaseTableProps<T = any> {
   /**
    * The key field of each data item
    */
-  rowKey?: string | number;
+  rowKey: string | number;
   /**
    * The width of the table
    */
-  width?: number;
+  width: number;
   /**
    * The height of the table, will be ignored if `maxHeight` is set
    */
@@ -1024,11 +1020,11 @@ export interface IBaseTableProps<T = any> {
   /**
    * The height of each table row
    */
-  rowHeight?: number;
+  rowHeight: number;
   /**
    * The height of the table header, set to 0 to hide the header, could be an array to render multi headers.
    */
-  headerHeight?: number | number[];
+  headerHeight: number | number[];
   /**
    * The height of the table footer
    */
@@ -1057,12 +1053,12 @@ export interface IBaseTableProps<T = any> {
    * Custom header renderer
    * The renderer receives props `{ cells, columns, headerIndex }`
    */
-  headerRenderer?: React.ComponentType<any> | React.ReactElement;
+  headerRenderer?: React.ComponentType<IHeaderRendererParam> | React.ReactElement;
   /**
    * Custom row renderer
    * The renderer receives props `{ isScrolling, cells, columns, rowData, rowIndex, depth }`
    */
-  rowRenderer?: React.ComponentType<any> | React.ReactElement;
+  rowRenderer?: React.ComponentType<RendererArgs> | React.ReactElement;
   /**
    * Class name for the table header, could be a callback to return the class name
    * The callback is of the shape of `({ columns, headerIndex }) => string`
@@ -1233,7 +1229,7 @@ export interface IBaseTableProps<T = any> {
    * Each of the keys is row event name, like `onClick`, `onDoubleClick` and etc.
    * Each of the handlers is of the shape of `({ rowData, rowIndex, rowKey, event }) => object`
    */
-  rowEventHandlers?: handlerCollection;
+  rowEventHandlers?: THandlerCollection;
   /**
    * An object for the custom components, like `ExpandIcon` and `SortIndicator`
    */

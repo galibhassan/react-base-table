@@ -4,7 +4,7 @@ import { IRowRendererCBParam, IRenderExpandIcon, IOnRowHover, IOnRowExpandCBPara
 import { ICellRendererCBParam, IColumnEssential, IRowEssential, IColumnProps } from './Column';
 
 type handlerArgs = { rowData: any, rowIndex: number, rowKey: string | number, event: Event };
-export type handlerCollection = {[key: string]: (args: handlerArgs) => void};
+export type THandlerCollection = {[key: string]: (args: handlerArgs) => void};
 
 export interface ITableRowProps<T> extends IColumnEssential, IRowEssential<T> {
   isScrolling: boolean;
@@ -14,7 +14,7 @@ export interface ITableRowProps<T> extends IColumnEssential, IRowEssential<T> {
   rowKey: number;
   expandColumnKey: string;
   depth?: number;
-  rowEventHandlers?: handlerCollection;
+  rowEventHandlers?: THandlerCollection;
   rowRenderer: React.ComponentType<IRowRendererCBParam>;
   cellRenderer: React.ComponentType<ICellRendererCBParam<T>>;
   expandIconRenderer: React.ComponentType<IRenderExpandIcon<T>>;
@@ -90,7 +90,7 @@ class TableRow<T=any> extends React.PureComponent<ITableRowProps<T>> {
     onRowExpand && onRowExpand({ expanded, rowData, rowIndex, rowKey });
   }
 
-  private getEventHandlers = (handlers: handlerCollection = {}) => {
+  private getEventHandlers = (handlers: THandlerCollection = {}) => {
     const { rowData, rowIndex, rowKey, onRowHover } = this.props;
     const eventHandlers: {[key:string]: (event:Event) =>  void} = {};
     Object.keys(handlers).forEach(eventKey => {

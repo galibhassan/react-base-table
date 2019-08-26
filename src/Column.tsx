@@ -58,7 +58,7 @@ export interface ICellRendererCBParam<T> extends IColumnEssential, IRowEssential
   container?: any;
   isScrolling?: boolean;
   headerIndex?: number;
-  expandIcon?: React.ReactNode;
+  expandIcon?: React.ReactElement;
 }
 
 export interface IColumnProps<T=any>  {
@@ -104,7 +104,7 @@ export interface IColumnProps<T=any>  {
   /**
    * The width of the column, gutter width is not included
    */
-  width?: number;
+  width: number;
   /**
    * Maximum width of the column, used if the column is resizable
    */
@@ -116,7 +116,7 @@ export interface IColumnProps<T=any>  {
   /**
    * Whether the column is frozen and what's the frozen side
    */
-  frozen?: 'left'  | 'right' | boolean;
+  frozen: 'left'  | 'right' | boolean;
   /**
    * Whether the column is hidden
    */
