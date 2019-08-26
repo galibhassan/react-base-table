@@ -1,4 +1,4 @@
-export { default } from './BaslseTable';
+export { default } from './BaseTable';
 
 export { default as Column, Alignment, FrozenDirection } from './Column';
 export { default as SortOrder } from './SortOrder';
