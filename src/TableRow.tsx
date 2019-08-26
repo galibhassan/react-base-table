@@ -1,26 +1,25 @@
 import React from 'react';
 import { renderElement } from './utils';
 import { IRowRendererCBParam, IRenderExpandIcon, IOnRowHover, IOnRowExpandCBParam, ICellProps } from './BaseTable';
-import { ICellRendererCBParam, IColumnEssential, IRowEssential, IColumnProps } from './Column';
+import { ICellRendererCBParam, IColumnEssential, IRowEssential, RowDataType } from './Column';
 
-type handlerArgs = { rowData: any, rowIndex: number, rowKey: string | number, event: Event };
+type handlerArgs = { rowData: RowDataType, rowIndex: number, rowKey: string | number, event: Event };
 export type THandlerCollection = {[key: string]: (args: handlerArgs) => void};
 
-export interface ITableRowProps<T> extends IColumnEssential, IRowEssential<T> {
-  isScrolling: boolean;
-  className: string;
-  style: React.CSSProperties;
-  expandIcon: React.ElementType;
-  rowKey: number;
-  expandColumnKey: string;
+export interface ITableRowProps<T=RowDataType> extends IColumnEssential, IRowEssential<T> {
+  isScrolling?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+  rowKey?: React.Key;
+  expandColumnKey?: string;
   depth?: number;
   rowEventHandlers?: THandlerCollection;
-  rowRenderer: React.ComponentType<IRowRendererCBParam>;
-  cellRenderer: React.ComponentType<ICellRendererCBParam<T>>;
-  expandIconRenderer: React.ComponentType<IRenderExpandIcon<T>>;
-  onRowHover: (args: IOnRowHover) => void;
-  onRowExpand: (args: IOnRowExpandCBParam) => any;
-  tagName: React.ElementType;
+  rowRenderer?: React.ComponentType<IRowRendererCBParam> | React.ReactNode;
+  cellRenderer?: React.ComponentType<ICellRendererCBParam<T>>;
+  expandIconRenderer?: React.ComponentType<IRenderExpandIcon<T>>;
+  onRowHover?: (args: IOnRowHover) => void;
+  onRowExpand?: (args: IOnRowExpandCBParam) => any;
+  tagName?: React.ElementType;
 };
 
 /**
@@ -56,7 +55,8 @@ class TableRow<T=any> extends React.PureComponent<ITableRowProps<T>> {
     const expandIconProps: IRenderExpandIcon<T> = { rowData, rowIndex, depth, onExpand: this.handleExpand };
     const expandIcon = <ExpandIconRenderer {...expandIconProps}/>;
 
-    let cells = columns.map((column: IColumnProps, columnIndex: number) => {
+
+    let cells = columns.map((column, columnIndex) => {
         const cellProps: ICellProps<T> = {
           isScrolling,
           columns,
@@ -64,11 +64,9 @@ class TableRow<T=any> extends React.PureComponent<ITableRowProps<T>> {
           columnIndex,
           rowData,
           rowIndex,
+          expandIcon: column.key === expandColumnKey && expandIcon,
         };
-        if(column.key === expandColumnKey) {
-          (cellProps.expandIcon as React.ReactNode) = expandIcon;
-        }
-        return <CellRenderer {...cellProps} />
+        return  <CellRenderer {...cellProps}/>
       }
     );
 

@@ -74,9 +74,7 @@ class GridTable extends React.PureComponent<GridTableProps> {
           {...rest}
           className={`${classPrefix}__body`}
           ref={this._setBodyRef}
-          data={data}
           itemKey={this._itemKey}
-          frozenData={frozenData}
           width={width}
           height={Math.max(height - headerHeight - frozenRowsHeight, 0)}
           rowHeight={rowHeight}
@@ -86,7 +84,6 @@ class GridTable extends React.PureComponent<GridTableProps> {
           columnCount={1}
           overscanColumnCount={0}
           useIsScrolling={useIsScrolling}
-          hoveredRowKey={hoveredRowKey}
           onScroll={onScroll}
           onItemsRendered={this._handleItemsRendered}
           children={this.renderRow}

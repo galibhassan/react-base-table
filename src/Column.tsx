@@ -29,15 +29,16 @@ export interface IColumnEssential {
   columnIndex?: number;
 }
 
-export interface IRowEssential<T=any> {
-  rowData?: T[];
+export type RowDataType = {[key: string]: any};
+export interface IRowEssential<T=RowDataType> {
+  rowData?: T;
   rowIndex?: number;
 }
 
 export type IColumnCallback<T> = (param: T) => string;
 export type IColumnRenderCallback<T> = (param: T) => React.ReactElement;
 
-export interface IClassNameCBParam<T> extends IColumnEssential, IRowEssential<T> {
+export interface IClassNameCBParam<T=RowDataType> extends IColumnEssential, IRowEssential<T> {
   cellData: any;
 }
 
@@ -45,7 +46,7 @@ export interface IHeaderClassNameCBParam extends IColumnEssential {
   headerIndex: number;
 }
 
-export interface IDataGetterCBParam<T> extends IColumnEssential, IRowEssential<T> {}
+export interface IDataGetterCBParam<T=RowDataType> extends IColumnEssential, IRowEssential<T> {}
 
 export interface IHeaderRendererCBParam extends IColumnEssential {
   headerIndex?: number;
@@ -53,12 +54,12 @@ export interface IHeaderRendererCBParam extends IColumnEssential {
   style?: React.CSSProperties;
 }
 
-export interface ICellRendererCBParam<T> extends IColumnEssential, IRowEssential<T> {
+export interface ICellRendererCBParam<T=RowDataType> extends IColumnEssential, IRowEssential<T> {
   cellData?: any;
   container?: any;
   isScrolling?: boolean;
   headerIndex?: number;
-  expandIcon?: React.ReactElement;
+  expandIcon?: React.ReactNode;
 }
 
 export interface IColumnProps<T=any>  {

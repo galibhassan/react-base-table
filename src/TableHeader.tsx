@@ -1,6 +1,6 @@
 import React from 'react';
 import { IHeaderRendererParam } from './GridTable'
-import { IColumnProps, IHeaderRendererCBParam } from './Column';
+import { IColumnProps, IHeaderRendererCBParam, RowDataType } from './Column';
 import { RendererArgs, IRowRendererCBParam } from './BaseTable';
 
 export interface TableHeaderProps<T = any> {
@@ -35,7 +35,7 @@ class TableHeader extends React.PureComponent<TableHeaderProps> {
     return <HeaderRenderer {...headerProps} />;
   }
 
-  public renderFrozenRow = (rowData: any, index: number) => {
+  public renderFrozenRow = (rowData: RowDataType, index: number) => {
     const { columns, rowHeight, rowRenderer: RowRenderer } = this.props;
     const style = { width: '100%', height: rowHeight };
     // for frozen row the `rowIndex` is negative

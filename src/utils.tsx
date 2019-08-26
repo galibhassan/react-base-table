@@ -9,11 +9,9 @@ function isFunctionComponent<P>(object: any): object is React.FunctionComponent<
   return object.hasOwnProperty('defaultProps');
 };
 
-
-
 export function renderElement(
-  renderer: React.ReactNode | React.ElementType | React.FunctionComponent,
-  props: any
+  renderer: React.ReactNode | React.ElementType,
+  props?: any
   ) {
   if (React.isValidElement(renderer)) {
     return React.cloneElement(renderer, props);

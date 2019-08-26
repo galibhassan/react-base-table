@@ -1,8 +1,8 @@
 import React from 'react';
 import { toString } from './utils';
-import { IColumnProps, IRowEssential } from './Column';
+import { IColumnProps, IRowEssential, RowDataType } from './Column';
 
-export interface TableCellProps<T> extends IRowEssential<T>{
+export interface TableCellProps<T=RowDataType> extends IRowEssential<T>{
   className: string;
   cellData: any;
   column: IColumnProps;

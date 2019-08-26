@@ -2,7 +2,7 @@ import React from 'react';
 
 import { renderElement } from './utils';
 
-import { ICellRendererCBParam, IColumnRenderCallback, IColumnProps } from './Column';
+import { ICellRendererCBParam, IColumnProps } from './Column';
 import { IHeaderRendererParam } from './GridTable';
 
 export interface ITableHeaderRowProps<T=any> {
@@ -11,37 +11,39 @@ export interface ITableHeaderRowProps<T=any> {
   style: React.CSSProperties,
   columns: IColumnProps[],
   headerIndex: number;
-  cellRenderer: IColumnRenderCallback<ICellRendererCBParam<T>>;
+  cellRenderer?: React.ComponentType<ICellRendererCBParam<T>>;
   headerRenderer: React.ComponentType<IHeaderRendererParam>;
   expandColumnKey: string;
   expandIcon: React.ElementType;
   tagName: React.ElementType;
 };
 
+type TTableHeaderRow<T = any> = React.FunctionComponent<ITableHeaderRowProps<T>>;
 /**
  * HeaderRow component for BaseTable
  */
-const TableHeaderRow: React.FunctionComponent<ITableHeaderRowProps> = ({
+const TableHeaderRow: TTableHeaderRow= ({
   className,
   style,
   columns,
   headerIndex,
-  cellRenderer,
+  cellRenderer: CellRenderer,
   headerRenderer,
   expandColumnKey,
   expandIcon: ExpandIcon,
   tagName: Tag,
   ...rest
 }) => {
-  let cells = columns.map((column, columnIndex) =>
-    cellRenderer({
+  let cells = columns.map((column, columnIndex) => {
+    const cellProps: ICellRendererCBParam = {
       columns,
       column,
       columnIndex,
       headerIndex,
       expandIcon: column.key === expandColumnKey && <ExpandIcon />,
-    })
-  );
+    };
+    return <CellRenderer {...cellProps}/>
+  });
 
   if (headerRenderer) {
     cells = renderElement(headerRenderer, { cells, columns, headerIndex });
