@@ -940,6 +940,8 @@ export interface ICellProps<T=RowDataType> extends IColumnEssential, IRowEssenti
   expandIcon?: React.ReactNode;
 }
 
+interface ICellPropsCBReturn<T=any> extends IColumnEssential, IRowEssential<T>{};
+
 export interface IRowRendererCBParam<T=RowDataType> extends IRowEssential<T> {
   style: React.CSSProperties;
   isScrolling?: boolean;
@@ -1089,7 +1091,7 @@ export interface IBaseTableProps<T = any> {
    * Extra props applied to row cell element
    * The handler is of the shape of `({ columns, column, columnIndex, rowData, rowIndex }) => object`
    */
-  cellProps?: ICellProps<T> | ((param: ICellProps<T>) =>  ICellProps<T>);
+  cellProps?: ICellProps<T> | ((param: ICellProps<T>) =>  ICellPropsCBReturn<T>);
   /**
    * Extra props applied to ExpandIcon component
    * The handler is of the shape of `({ rowData, rowIndex, depth, expandable, expanded }) => object`
