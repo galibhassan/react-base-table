@@ -4,6 +4,7 @@ import { renderElement } from './utils';
 
 import { ICellRendererCBParam, IColumnProps } from './Column';
 import { IHeaderRendererParam } from './GridTable';
+import { TTagname } from './BaseTable';
 
 export interface ITableHeaderRowProps<T=any> {
   isScrolling: boolean;
@@ -15,7 +16,7 @@ export interface ITableHeaderRowProps<T=any> {
   headerRenderer: React.ComponentType<IHeaderRendererParam>;
   expandColumnKey: string;
   expandIcon: React.ElementType;
-  tagName: React.ElementType;
+  tagName: TTagname;
 };
 
 type TTableHeaderRow<T = any> = React.FunctionComponent<ITableHeaderRowProps<T>>;

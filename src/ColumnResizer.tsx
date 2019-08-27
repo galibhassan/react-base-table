@@ -153,7 +153,7 @@ interface IHTMLElementExtended extends HTMLElement {
 type IColumnResizerCallBack<T> = (param: T) => any;
 export interface IOnResizeStartCBParam {
   column? : IColumnProps;
-  key?: string | number;
+  key?: React.Key;
 }
 export interface IColumnResizerProps {
   /**

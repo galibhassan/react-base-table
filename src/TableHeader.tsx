@@ -5,11 +5,11 @@ import { RendererArgs, IRowRendererCBParam } from './BaseTable';
 
 export interface TableHeaderProps<T = any> {
   className?: string;
-  width?: string | number;
-  height?: string | number;
+  width?: React.Key;
+  height?: React.Key;
   headerHeight?: number | number[];
   rowWidth?: number;
-  rowHeight?: number | string;
+  rowHeight?: React.Key;
   columns?: IColumnProps[];
   data?: T[],
   frozenData?: T[],

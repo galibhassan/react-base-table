@@ -360,7 +360,7 @@ class BaseTable<T extends RowDataType=RowDataType> extends React.PureComponent<I
       [this._prefixClass('header-cell--resizing')]: column.key === this.state.resizingKey,
     });
     const extraProps = callOrReturn(headerCellProps, { columns, column, columnIndex, headerIndex });
-    const { tagName, ...rest }: any = extraProps || {};
+    const { tagName, ...rest }: ITagNameAndRest = extraProps || {};
     const Tag = tagName || 'div';
     return (
       <Tag
@@ -925,8 +925,15 @@ interface IRenderHeaderCellParam extends IColumnEssential {
   expandIcon: React.ReactNode;
 }
 
+export type TTagname = string | React.ComponentType<{
+  role?: string;
+  'data-key'?: React.Key;
+  className?: string;
+  style?: React.CSSProperties;
+  onClick?: (event: React.MouseEvent<HTMLDivElement & {dataset: DOMStringMap}, MouseEvent>) => void;
+}>;
 export interface ICellProps<T=RowDataType> extends IColumnEssential, IRowEssential<T>{
-  tagName?: any;
+  tagName?: TTagname;
   isScrolling?: boolean;
   cellData?: any;
   container?: any;
@@ -949,14 +956,14 @@ export interface IOnRowHover<T=RowDataType> extends IRowEssential<T>{
 
 export interface IOnRowExpandCBParam<T=RowDataType> extends IRowEssential<T>{
   expanded?: any;
-  rowKey?: string | number;
+  rowKey?: React.Key;
 }
 
-export type TExpandedRowKeys = string[] | number[];
+export type TExpandedRowKeys = React.Key[];
 
 interface ITagNameAndRest {
-  tagName?: string;
-  [key: string]: any
+  tagName?: TTagname;
+  [key: string]: any;
 }
 
 export interface IBaseTableProps<T = any> {
@@ -991,7 +998,7 @@ export interface IBaseTableProps<T = any> {
   /**
    * The key field of each data item
    */
-  rowKey: string | number;
+  rowKey: React.Key;
   /**
    * The width of the table
    */

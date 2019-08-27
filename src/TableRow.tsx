@@ -3,7 +3,7 @@ import { renderElement } from './utils';
 import { IRowRendererCBParam, IRenderExpandIcon, IOnRowHover, IOnRowExpandCBParam, ICellProps } from './BaseTable';
 import { ICellRendererCBParam, IColumnEssential, IRowEssential, RowDataType } from './Column';
 
-type handlerArgs = { rowData: RowDataType, rowIndex: number, rowKey: string | number, event: Event };
+type handlerArgs = { rowData: RowDataType, rowIndex: number, rowKey: React.Key, event: Event };
 export type THandlerCollection = {[key: string]: (args: handlerArgs) => void};
 
 export interface ITableRowProps<T=RowDataType> extends IColumnEssential, IRowEssential<T> {

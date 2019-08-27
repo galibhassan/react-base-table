@@ -121,7 +121,7 @@ class GridTable extends React.PureComponent<GridTableProps> {
 
   private _itemKey = ({ rowIndex }: {
     rowIndex: number;
-  }): string | number => {
+  }): React.Key => {
     const { data, rowKey } = this.props;
     return data[rowIndex][rowKey];
   }
@@ -156,7 +156,7 @@ export interface GridTableProps<T = any> extends TBaseGridTableProps {
   bodyWidth?: number;
   columns?: IColumnProps[];
   data?: T[];
-  rowKey?: string | number;
+  rowKey?: React.Key;
   frozenData?: T[];
   overscanRowCount?: number;
   hoveredRowKey?: React.Key;
