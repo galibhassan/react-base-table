@@ -12,14 +12,12 @@ const columns = [
     title: 'code',
     dataKey: 'code',
     width: 50,
-    frozen: true,
   },
   {
     key: 'name',
     title: 'name',
     dataKey: 'name',
     width: 50,
-    frozen: false,
   },
 ];
 
@@ -37,6 +35,7 @@ const data = [
 ];
 
 const Table: React.FunctionComponent<Omit<IBaseTableProps, 'width' | 'height' | 'data' | 'columns'>> = props => (
+// const Table: React.FunctionComponent<IBaseTableProps> = props => (
   <BaseTable width={100} height={100} data={data} columns={columns} {...props} />
 );
 
