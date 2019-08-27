@@ -992,7 +992,7 @@ export interface IBaseTableProps<T = any> {
   /**
    * The data for the table
    */
-  data?: T[];
+  data: T[];
   /**
    * The data be frozen to top, `rowIndex` is negative and started from `-1`
    */

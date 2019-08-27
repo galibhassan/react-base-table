@@ -1,15 +1,18 @@
 import React from 'react';
 import { renderElement } from './utils';
 import { IRowRendererCBParam, IRenderExpandIcon, IOnRowHover, IOnRowExpandCBParam, ICellProps } from './BaseTable';
-import { ICellRendererCBParam, IColumnEssential, IRowEssential, RowDataType } from './Column';
+import { ICellRendererCBParam, RowDataType, IColumnProps } from './Column';
 
 type handlerArgs = { rowData: RowDataType, rowIndex: number, rowKey: React.Key, event: Event };
 export type THandlerCollection = {[key: string]: (args: handlerArgs) => void};
 
-export interface ITableRowProps<T=RowDataType> extends IColumnEssential, IRowEssential<T> {
+export interface ITableRowProps<T=RowDataType> {
   isScrolling?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  columns: IColumnProps[];
+  rowData: T;
+  rowIndex: number;
   rowKey?: React.Key;
   expandColumnKey?: string;
   depth?: number;

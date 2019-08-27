@@ -1,12 +1,10 @@
 import React from 'react';
 import { toString } from './utils';
-import { IColumnProps, IRowEssential, RowDataType } from './Column';
+import { IRowEssential, RowDataType, IColumnEssential } from './Column';
 
-export interface TableCellProps<T=RowDataType> extends IRowEssential<T>{
-  className: string;
-  cellData: any;
-  column: IColumnProps;
-  columnIndex: number;
+export interface TableCellProps<T=RowDataType> extends IRowEssential<T>, Omit<IColumnEssential, 'columns'> {
+  className?: string;
+  cellData?: any;
 }
 
 /**

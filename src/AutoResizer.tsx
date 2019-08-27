@@ -34,15 +34,15 @@ export interface AutoResizerProps {
   /**
    * Class name for the component
    */
-  className: string;
+  className?: string;
   /**
    * the width of the component, will be the container's width if not set
    */
-  width: number;
+  width?: number;
   /**
    * the height of the component, will be the container's width if not set
    */
-  height: number;
+  height?: number;
   /**
    * A callback function to render the children component
    * The handler is of the shape of `({ width, height }) => node`
@@ -52,7 +52,7 @@ export interface AutoResizerProps {
    * A callback function when the size of the table container changed if the width and height are not set
    * The handler is of the shape of `({ width, height }) => *`
    */
-  onResize: (args: ChildrenArgs) => void;
+  onResize?: (args: ChildrenArgs) => void;
 };
 
 export default AutoResizer;

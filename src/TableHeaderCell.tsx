@@ -1,9 +1,9 @@
 import React from 'react';
 
 export interface ITableHeaderCellProps {
-  className?: string,
-  column?: {title: string},
-  columnIndex?: number,
+  className?: string;
+  column?: {title: string};
+  columnIndex?: number;
 };
 
 /**

@@ -115,7 +115,7 @@ export interface IColumnProps<T=any>  {
   /**
    * Whether the column is frozen and what's the frozen side
    */
-  frozen: 'left'  | 'right' | boolean;
+  frozen?: 'left'  | 'right' | boolean;
   /**
    * Whether the column is hidden
    */
