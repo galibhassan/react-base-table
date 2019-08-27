@@ -34,7 +34,6 @@ const DEFAULT_COMPONENTS = {
 
 const RESIZE_THROTTLE_WAIT = 50;
 
-
 type RendererArgsReduced = Omit<GridChildComponentProps & {rowData?: any, columns?: IColumnProps[]}, 'columnIndex' | 'data' | 'rowIndex'>;
 export interface RendererArgs extends RendererArgsReduced {
   rowIndex?: number
@@ -72,7 +71,7 @@ class BaseTable<T extends RowDataType=RowDataType> extends React.PureComponent<I
     };
     this.columnManager = new ColumnManager(columns || normalizeColumns(children), props.fixed);
 
-    this._handleColumnResize = throttle(this._handleColumnResize.bind(this), RESIZE_THROTTLE_WAIT);
+    this._handleColumnResize = throttle(this._handleColumnResize, RESIZE_THROTTLE_WAIT);
     this._data = props.data;
     this._flattenOnKeys = memoize((tree: any[], keys: string[], dataKey: string) => {
       this._depthMap = {};
@@ -273,8 +272,9 @@ class BaseTable<T extends RowDataType=RowDataType> extends React.PureComponent<I
       [this._prefixClass('row-cell--align-right')]: column.align === Alignment.RIGHT,
     });
 
+
     const extraProps = callOrReturn(this.props.cellProps, { columns, column, columnIndex, rowData, rowIndex });
-    const { tagName, ...rest }: any = extraProps || {};
+    const { tagName, ...rest }: ITagNameAndRest= extraProps || {};
     const Tag = tagName || 'div';
     return (
       <Tag
@@ -899,10 +899,6 @@ interface IOffset {
   scrollTop: number;
 }
 
-interface ISortState {
-  [sortKey: string] : string
-}
-
 interface IHandleColumnResizeStartParam {
   key: string | null;
 }
@@ -958,6 +954,10 @@ export interface IOnRowExpandCBParam<T=RowDataType> extends IRowEssential<T>{
 
 export type TExpandedRowKeys = string[] | number[];
 
+interface ITagNameAndRest {
+  tagName?: string;
+  [key: string]: any
+}
 
 export interface IBaseTableProps<T = any> {
   /**
@@ -1141,7 +1141,7 @@ export interface IBaseTableProps<T = any> {
    * }
    * ```
    */
-  sortState?: ISortState,
+  sortState?: {[key: string]: SortOrder},
   /**
    * A callback function for the header cell click event
    * The handler is of the shape of `({ column, key, order }) => *`

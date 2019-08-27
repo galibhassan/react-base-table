@@ -39,7 +39,6 @@ export function normalizeColumns(elements: React.ReactElement<IColumnProps>[]) {
   });
   return columns;
 }
-export type TColumns = ReturnType<typeof normalizeColumns>;
 
 export function isObjectEqual(objA: any, objB: any) {
   if (objA === objB) return true;

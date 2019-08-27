@@ -1,5 +1,4 @@
 import React from 'react';
-import { TColumns } from './utils';
 
 export enum Alignment {
   LEFT = 'left',
@@ -22,9 +21,8 @@ class Column extends React.Component<IColumnProps> {
   static FrozenDirection = FrozenDirection;
 }
 
-
 export interface IColumnEssential {
-  columns?: TColumns;
+  columns?: IColumnProps[];
   column?: IColumnProps;
   columnIndex?: number;
 }
@@ -143,7 +141,7 @@ export interface IColumnProps<T=any>  {
   /**
    * Key
    */
-  key?: React.ReactElement['key'];
+  key?: React.Key;
   /**
    * placeholder key
    */

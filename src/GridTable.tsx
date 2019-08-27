@@ -159,7 +159,7 @@ export interface GridTableProps<T = any> extends TBaseGridTableProps {
   rowKey?: string | number;
   frozenData?: T[];
   overscanRowCount?: number;
-  hoveredRowKey?: string | number;
+  hoveredRowKey?: React.Key;
   onScrollbarPresenceChange?: (params: IOnScrollbarPresenceChange)=> void;
   onRowsRendered?: (param: IOnRowsRenderedParam) => void;
   headerRenderer: React.ComponentType<IHeaderRendererParam>;

@@ -99,7 +99,7 @@
     "roots": [
       "<rootDir>/src"
     ],
-    "testRegex": ".*.spec\\.tsx$",
+    "testRegex": ".*.spec\\.tsx?$",
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
