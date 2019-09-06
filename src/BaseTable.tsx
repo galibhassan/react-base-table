@@ -372,10 +372,14 @@ class BaseTable<T extends RowDataType = RowDataType, C = any> extends React.Pure
     const headerClass = callOrReturn(headerClassName, { columns, headerIndex });
     const extraProps = callOrReturn(this.props.headerProps, { columns, headerIndex });
 
-    const className = cn(this._prefixClass('header-row'), headerClass, {
-      [this._prefixClass('header-row--resizing')]: !!this.state.resizingKey,
-      [this._prefixClass('header-row--customized')]: headerRenderer,
-    });
+    const className = cn(
+      this._prefixClass('header-row'), 
+      headerClass, 
+      {
+        [this._prefixClass('header-row--resizing')]: !!this.state.resizingKey,
+        // [this._prefixClass('header-row--customized')]: headerRenderer,
+      }
+    );
 
     const headerProps: IHeaderProps = {
       ...extraProps,
