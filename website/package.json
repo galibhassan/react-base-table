@@ -5,6 +5,7 @@
   "author": "Neo Nie <nihgwu@live.com>",
   "homepage": "https://autodesk.github.io/react-base-table/",
   "dependencies": {
+    "@types/styled-components": "^4.1.19",
     "classnames": "^2.2.6",
     "clipboard": "^2.0.4",
     "gatsby": "^2.13.1",
@@ -16,6 +17,7 @@
     "gatsby-plugin-react-helmet": "^3.1.0",
     "gatsby-plugin-remove-trailing-slashes": "^2.1.0",
     "gatsby-plugin-styled-components": "^3.1.0",
+    "gatsby-plugin-typescript": "^2.1.7",
     "gatsby-remark-copy-linked-files": "^2.1.0",
     "gatsby-source-filesystem": "^2.1.2",
     "gatsby-transformer-code": "^0.1.0",
