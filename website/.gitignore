@@ -18,3 +18,5 @@ npm-debug.log.*
 # yarn
 yarn-error.log
 yarn-error.log.*
+
+_build

@@ -1,6 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 import { Link } from 'gatsby'
 import styled from 'styled-components'
+
 
 import Page from 'components/Page'
 
@@ -53,6 +54,85 @@ const ExampleLink = styled(StartLink)`
     background-color: transparent;
   }
 `
+
+/**
+ * interface for human
+ */
+interface IHumanProps {
+  /**
+   * name of the person
+   */
+  name: string;
+  /**
+   * age of the person
+   */
+  age: number;
+  /**
+   * Hogwarts house
+   */
+  house: string;
+}
+/**
+ * Interface for super-humans
+ */
+interface ISuperHumanProps extends IHumanProps {
+  /**
+   * Flying ability
+   */
+  canFly: boolean;
+  /**
+   * Vanishing ability
+   */
+  canVanish: boolean;
+}
+
+export class Human extends React.Component<IHumanProps> {
+  harryPotter: IHumanProps = {
+    name: 'harry',
+    age: 30,
+  }
+  public render() {
+    return(
+      <div>
+
+      </div>
+    )
+  }
+}
+
+export class SuperHuman extends React.Component<ISuperHumanProps> {
+  hermioneGranger: ISuperHumanProps = {
+    name: 'Hermione',
+    age: 30,
+    canFly: true,
+    canVanish: true,
+  }
+  public render() {
+    return(
+      <div>
+
+      </div>
+    )
+  }
+}
+
+interface IMyFunctionProps {
+  /**
+   * some boolean thingy
+   */
+  someBoolean: boolean;
+  /**
+   * some number thingy
+   */
+  someString: number;
+}
+/**
+ * My amazing function
+ */
+export const myFunction = (param: IMyFunctionProps) => {
+  console.log(param)
+}
+
 
 export default () => (
   <Container title="Home">

@@ -44,6 +44,7 @@
     "gh-pages": "^2.0.1",
     "lint-staged": "^9.0.1",
     "prettier": "^1.18.2",
+    "react-docgen-typescript": "^1.14.0",
     "rimraf": "^2.6.3"
   },
   "browserslist": [
@@ -59,7 +60,8 @@
     "develop": "gatsby develop",
     "serve": "gatsby serve",
     "format": "prettier --write 'src/**/*.{js,css}'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc:temp": "node ./tsDocGen && node ./myDocGen"
   },
   "lint-staged": {
     "*.js": [
