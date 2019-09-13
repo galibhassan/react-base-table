@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Link } from 'gatsby'
 import styled from 'styled-components'
 
@@ -57,7 +57,7 @@ const ExampleLink = styled(StartLink)`
 /**
  * interface for human
  */
-interface IHumanProps {
+export interface IHumanProps {
   /**
    * name of the person
    */
@@ -85,53 +85,37 @@ interface ISuperHumanProps extends IHumanProps {
   canVanish: boolean;
 }
 
-export class Human extends React.Component<IHumanProps> {
-  harryPotter: IHumanProps = {
-    name: 'harry',
-    age: 30,
-  }
-  public render() {
-    return(
-      <div>
-
-      </div>
-    )
-  }
-}
-
-export class SuperHuman extends React.Component<ISuperHumanProps> {
-  hermioneGranger: ISuperHumanProps = {
-    name: 'Hermione',
-    age: 30,
-    canFly: true,
-    canVanish: true,
-  }
-  public render() {
-    return(
-      <div>
-
-      </div>
-    )
-  }
-}
-
-interface IMyFunctionProps {
-  /**
-   * some boolean thingy
-   */
-  someBoolean: boolean;
-  /**
-   * some number thingy
-   */
-  someString: number;
-}
 /**
- * My amazing function
+ * The Human Class
  */
-export const myFunction = (param: IMyFunctionProps) => {
-  console.log(param)
+export class Human extends React.Component<IHumanProps, {}> {
+  public render() {
+    return(
+      <div>
+        Hello from Human class
+      </div>
+    )
+  }
 }
 
+/**
+ * The Super Human class
+ */
+export class SuperHuman extends React.Component<ISuperHumanProps, {}> {
+  /**
+   * getter for name
+   */
+  public getName() {
+    return 'name of this'
+  }
+  public render() {
+    return(
+      <div>
+        <Human name={'harry potter'} age={30} house="Gryffindor"/>
+      </div>
+    )
+  }
+}
 
 export default () => (
   <Container title="Home">
