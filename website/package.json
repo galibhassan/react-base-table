@@ -16,6 +16,7 @@
     "gatsby-plugin-react-helmet": "^3.1.0",
     "gatsby-plugin-remove-trailing-slashes": "^2.1.0",
     "gatsby-plugin-styled-components": "^3.1.0",
+    "gatsby-plugin-typescript": "^2.1.7",
     "gatsby-remark-copy-linked-files": "^2.1.0",
     "gatsby-source-filesystem": "^2.1.2",
     "gatsby-transformer-code": "^0.1.0",
@@ -38,6 +39,9 @@
     "styled-components": "^4.3.2"
   },
   "devDependencies": {
+    "@types/node": "^12.7.5",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
     "babel-plugin-styled-components": "^1.10.6",
     "gh-pages": "^2.0.1",
     "lint-staged": "^9.0.1",

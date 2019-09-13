@@ -7,6 +7,7 @@ module.exports = {
     author: 'Neo Nie (nihgwu@live.com)',
   },
   plugins: [
+    `gatsby-plugin-typescript`,
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
