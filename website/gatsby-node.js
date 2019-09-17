@@ -10,38 +10,37 @@ exports.sourceNodes = async ({
   createNodeId,
   createContentDigest,
 }) => {
-  // const query = await Promise.resolve(require('./tsDocGen').data)
-  const tempData = [
-    {
-      a: {
-        b: 2,
-        c: 3,
-      },
-    },
-    {
-      d: {
-        e: 5,
-      },
-    },
-  ]
-  const query = await Promise.resolve(tempData)
-  console.log(query)
+  const query = await Promise.resolve(require('./tsDocGen').data)
   query.forEach((item, index) => {
-    const nodeContent = JSON.stringify(item)
     const nodeMeta = {
-      id: createNodeId(`react-base-table-ts-api-doc-${index}`),
+      id: createNodeId(`myDoc-${index}`),
       parent: null,
       children: [],
       internal: {
-        type: `react-base-table-ts-api-doc`,
-        content: nodeContent,
+        type: `myDoc`,
+        content: JSON.stringify(item),
         contentDigest: createContentDigest(item),
       },
     }
     const node = Object.assign({}, item, nodeMeta)
+
     const { createNode } = actions
-    // createNode(node)
+    createNode(node)
   })
+
+  const nodeMetaTS = {
+    id: createNodeId(`tsDocGen`),
+    parent: null,
+    children: [],
+    internal: {
+      type: `tsDocGen`,
+      content: JSON.stringify(query),
+      contentDigest: createContentDigest(query),
+    },
+  }
+  const tsDocNode = Object.assign({}, query, nodeMetaTS)
+  const { createNode } = actions
+  createNode(tsDocNode)
 }
 
 exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {

@@ -67,9 +67,9 @@ export interface IHumanProps {
    */
   age: number;
   /**
-   * Hogwarts house
+   * Hogwarts house (should show optional)
    */
-  house: string;
+  house?: string;
 }
 /**
  * Interface for super-humans
@@ -82,11 +82,11 @@ interface ISuperHumanProps extends IHumanProps {
   /**
    * Vanishing ability
    */
-  canVanish: boolean;
+  canVanish?: boolean;
 }
 
 /**
- * The Human Class
+ * The Human component
  */
 export class Human extends React.Component<IHumanProps, {}> {
   public render() {
@@ -99,7 +99,7 @@ export class Human extends React.Component<IHumanProps, {}> {
 }
 
 /**
- * The Super Human class
+ * The Super Human component
  */
 export class SuperHuman extends React.Component<ISuperHumanProps, {}> {
   /**
@@ -117,8 +117,9 @@ export class SuperHuman extends React.Component<ISuperHumanProps, {}> {
   }
 }
 
-export default () => (
-  <Container title="Home">
+export default () => {
+  return(
+    <Container title="Home">
     <Hero>
       <h1>BaseTable</h1>
       <Description>
@@ -136,9 +137,9 @@ export default () => (
         href="https://autodesk.github.io/react-base-table/"
         rel="noopener noreferrer"
         target="_blank"
-      >
+        >
         Github
       </ExternalLink>
     </Content>
   </Container>
-)
+)}
