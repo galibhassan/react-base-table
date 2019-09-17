@@ -1,6 +1,6 @@
 const path = require('path')
 const _ = require('lodash')
-
+const fs = require('fs')
 const siteConfig = require('./siteConfig')
 
 console.log('---------------------------')
@@ -11,7 +11,10 @@ exports.sourceNodes = async ({
   createContentDigest,
 }) => {
   const query = await Promise.resolve(require('./tsDocGen').data)
-  console.log(query)
+  fs.writeFileSync(
+    path.resolve(__dirname, '_build', '_doc', 'sampleDoc.json'),
+    JSON.stringify(query, null, 2)
+  )
   /*  query.forEach((item, index) => {
     const nodeMeta = {
       id: createNodeId(`myDoc-${index}`),

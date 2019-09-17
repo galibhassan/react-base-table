@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { IRowRendererCBParam, RendererArgs } from './BaseTable';
 import { IColumnProps, IHeaderRendererCBParam, RowDataType } from './Column';
 import { IHeaderRendererParam } from './GridTable';

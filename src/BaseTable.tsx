@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import memoize from 'memoize-one';
-import React from 'react';
+import * as React from 'react';
 import { Align, GridChildComponentProps } from 'react-window';
 import Column, { Alignment, FrozenDirection, IColumnProps } from './Column';
 import ColumnManager from './ColumnManager';

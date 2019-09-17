@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { IColumnEssential, IRowEssential, RowDataType } from './Column';
 import { toString } from './utils';
 

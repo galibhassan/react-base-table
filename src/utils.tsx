@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { IColumnProps } from './Column';
 
 export function renderElement(renderer: React.ElementType | React.ReactElement, props?: any) {
