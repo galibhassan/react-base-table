@@ -3,6 +3,47 @@ const _ = require('lodash')
 
 const siteConfig = require('./siteConfig')
 
+console.log('---------------------------')
+// const fetch = require('node-fetch')
+exports.sourceNodes = async ({
+  actions,
+  createNodeId,
+  createContentDigest,
+}) => {
+  const query = await Promise.resolve(require('./tsDocGen').data)
+  console.log(query)
+  /*  query.forEach((item, index) => {
+    const nodeMeta = {
+      id: createNodeId(`myDoc-${index}`),
+      parent: null,
+      children: [],
+      internal: {
+        type: `myDoc`,
+        content: JSON.stringify(item),
+        contentDigest: createContentDigest(item),
+      },
+    }
+    const node = Object.assign({}, item, nodeMeta)
+
+    const { createNode } = actions
+    createNode(node)
+  })
+ */
+  const nodeMetaTS = {
+    id: createNodeId(`tsDocGen`),
+    parent: null,
+    children: [],
+    internal: {
+      type: `tsDocGen`,
+      content: JSON.stringify(query),
+      contentDigest: createContentDigest(query),
+    },
+  }
+  const tsDocNode = Object.assign({}, query, nodeMetaTS)
+  const { createNode } = actions
+  createNode(tsDocNode)
+}
+
 exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {
   const config = getConfig()
 
