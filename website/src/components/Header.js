@@ -91,6 +91,9 @@ const Header = ({ pathname }) => {
         <NavLink to="/api" pathname={pathname}>
           API
         </NavLink>
+        <NavLink to="/docTS" pathname={pathname}>
+          apiTS
+        </NavLink>
         <NavLink to="/examples" pathname={pathname}>
           Examples
         </NavLink>
