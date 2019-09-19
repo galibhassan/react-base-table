@@ -10,11 +10,11 @@ exports.sourceNodes = async ({
   createNodeId,
   createContentDigest,
 }) => {
-  const query = await Promise.resolve(require('./tsDocGen').data)
+  /* const query = await Promise.resolve(require('./tsDocGen').data)
   fs.writeFileSync(
     path.resolve(__dirname, '_build', '_doc', 'sampleDoc.json'),
     JSON.stringify(query, null, 2)
-  )
+  ) */
   /*  query.forEach((item, index) => {
     const nodeMeta = {
       id: createNodeId(`myDoc-${index}`),
@@ -32,7 +32,7 @@ exports.sourceNodes = async ({
     createNode(node)
   })
  */
-  const nodeMetaTS = {
+  /*   const nodeMetaTS = {
     id: createNodeId(`tsDocGen`),
     parent: null,
     children: [],
@@ -44,7 +44,7 @@ exports.sourceNodes = async ({
   }
   const tsDocNode = Object.assign({}, query, nodeMetaTS)
   const { createNode } = actions
-  createNode(tsDocNode)
+  createNode(tsDocNode) */
 }
 
 exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {
@@ -113,6 +113,18 @@ exports.onCreateNode = ({ node, actions, getNode, createNodeId }) => {
 
 exports.createPages = async ({ graphql, actions, getNode }) => {
   const { createPage } = actions
+
+  const ApiFromTs = path.resolve('src/templates/apiFromTs.js')
+  const query = await Promise.resolve(require('./tsDocGen').data)
+  // const query = fs.readFileSync('./_build/_doc/sampleDoc.json', {encoding: 'utf-8'});
+
+  createPage({
+    path: `/docTS`,
+    component: ApiFromTs,
+    context: {
+      pageProps: query,
+    },
+  })
 
   const docPage = path.resolve('src/templates/doc.js')
   const apiPage = path.resolve('src/templates/api.js')

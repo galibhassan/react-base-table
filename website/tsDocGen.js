@@ -28,7 +28,14 @@ console.log(findFileWithExtension('tsx'))
 let tsxParser = require('react-docgen-typescript')
 // See if there is a tsconfig.json; if so, use that
 try {
-  tsxParser = tsxParser.withDefaultConfig()
+  tsxParser = tsxParser.withDefaultConfig({
+    propFilter(prop) {
+      if (prop.parent) {
+        return !prop.parent.fileName.includes('node_modules')
+      }
+      return true
+    },
+  })
 } catch (err) {}
 
 const pathToFiles = findFileWithExtension('tsx')
