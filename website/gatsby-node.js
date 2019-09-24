@@ -4,18 +4,17 @@ const fs = require('fs')
 const siteConfig = require('./siteConfig')
 
 console.log('---------------------------')
-// const fetch = require('node-fetch')
 exports.sourceNodes = async ({
   actions,
   createNodeId,
   createContentDigest,
 }) => {
-  /* const query = await Promise.resolve(require('./tsDocGen').data)
-  fs.writeFileSync(
+  const query = await Promise.resolve(require('./tsDocGen').data)
+  /*fs.writeFileSync(
     path.resolve(__dirname, '_build', '_doc', 'sampleDoc.json'),
     JSON.stringify(query, null, 2)
-  ) */
-  /*  query.forEach((item, index) => {
+  )
+  query.forEach((item, index) => {
     const nodeMeta = {
       id: createNodeId(`myDoc-${index}`),
       parent: null,
@@ -32,7 +31,8 @@ exports.sourceNodes = async ({
     createNode(node)
   })
  */
-  /*   const nodeMetaTS = {
+  // or, If we want to pass the whole big generated json
+  const nodeMetaTS = {
     id: createNodeId(`tsDocGen`),
     parent: null,
     children: [],
@@ -44,7 +44,7 @@ exports.sourceNodes = async ({
   }
   const tsDocNode = Object.assign({}, query, nodeMetaTS)
   const { createNode } = actions
-  createNode(tsDocNode) */
+  createNode(tsDocNode)
 }
 
 exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {
@@ -60,6 +60,8 @@ exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {
     'react-base-table/styles.css': path.resolve(__dirname, '../styles.css'),
     'react-base-table': path.resolve(__dirname, '../build'),
   }
+
+  config.devtool = `source-map`
 
   actions.replaceWebpackConfig(config)
 }
@@ -114,9 +116,9 @@ exports.onCreateNode = ({ node, actions, getNode, createNodeId }) => {
 exports.createPages = async ({ graphql, actions, getNode }) => {
   const { createPage } = actions
 
+  // ----------- API from TS Ported Lib (avoiding graphql) --------------------------
   const ApiFromTs = path.resolve('src/templates/apiFromTs.js')
   const query = await Promise.resolve(require('./tsDocGen').data)
-  // const query = fs.readFileSync('./_build/_doc/sampleDoc.json', {encoding: 'utf-8'});
 
   createPage({
     path: `/docTS`,
@@ -125,6 +127,7 @@ exports.createPages = async ({ graphql, actions, getNode }) => {
       pageProps: query,
     },
   })
+  // ---------------------------------------------------------------------------------
 
   const docPage = path.resolve('src/templates/doc.js')
   const apiPage = path.resolve('src/templates/api.js')
