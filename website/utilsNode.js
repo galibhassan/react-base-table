@@ -1,6 +1,12 @@
 const path = require('path')
 const cp = require('child_process')
 
+/**
+ * Assuming being executed from somewhere inside the website folder, the function returns all files in
+ * react-base-table/src directory with the `ext` file-extension.
+ * @param {string} ext The file extension, e.g, 'tsx', 'jsx' etc.
+ * @returns {Array} Array of files found.
+ */
 const findFileWithExtension = ext => {
   const pathWebsite_pwd = cp.execSync('pwd', { encoding: 'utf-8' })
   const pathToReactBaseTableSrc_pwd =
@@ -22,24 +28,6 @@ const findFileWithExtension = ext => {
   return outArr
 }
 
-console.log(findFileWithExtension('tsx'))
-
-let tsxParser = require('react-docgen-typescript')
-// See if there is a tsconfig.json; if so, use that
-try {
-  tsxParser = tsxParser.withDefaultConfig({
-    propFilter(prop) {
-      if (prop.parent) {
-        return !prop.parent.fileName.includes('node_modules')
-      }
-      return true
-    },
-  })
-} catch (err) {}
-
-const pathToFiles = findFileWithExtension('tsx')
-const data = tsxParser.parse(pathToFiles)
-
 module.exports = {
-  data,
+  findFileWithExtension,
 }

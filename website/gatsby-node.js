@@ -1,5 +1,7 @@
 const path = require('path')
+const fs = require('fs')
 const _ = require('lodash')
+const {findFileWithExtension} = require('./utilsNode');
 const siteConfig = require('./siteConfig')
 
 exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {
@@ -123,30 +125,23 @@ exports.createPages = async ({ graphql, actions, getNode }) => {
     })
   })
 
+  const docDisplayNames = findFileWithExtension('tsx').map( item => {
+    return path.basename(item).replace('.tsx', '')
+  })
+
+
   result.data.allComponentMetadata.edges.forEach(edge => {
     const node = edge.node
     const fileNode = getNode(node.parent.id)
     if (fileNode.sourceInstanceName !== 'api') return
     const { displayName: name, docblock } = node
     if (!docblock) {
-      if(
-        !(
-          name === 'BaseTable' ||
-          name === 'Column' ||
-          name === 'AutoResizer' ||
-          name === 'ColumnResizer' ||
-          name === 'ExpandIcon' ||
-          name === 'SortIndicator' ||
-          name === 'TableHeaderCell' ||
-          name === 'TableHeaderRow' ||
-          name === 'GridTable' ||
-          name === 'TableCell' ||
-          name === 'TableRow' ||
-          name === 'TableHeader' ||
-          name === 'AnotherColumn'
-        )
-       ) {
-         return 
+      const currentDisplayNameMatch = docDisplayNames.find(displayNameItem => {
+        return displayNameItem === name
+      })
+
+      if(!currentDisplayNameMatch) {
+        return
       }
     }
     createPage({

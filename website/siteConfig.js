@@ -35,10 +35,6 @@ module.exports = {
       path: `/api/${`column`.toLowerCase()}`,
     },
     {
-      title: 'AnotherColumn',
-      path: `/api/${`AnotherColumn`.toLowerCase()}`,
-    },
-    {
       title: 'AutoResizer',
       path: `/api/${`autoresizer`.toLowerCase()}`,
     },
