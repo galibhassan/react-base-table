@@ -1,51 +1,6 @@
 const path = require('path')
 const _ = require('lodash')
-const fs = require('fs')
 const siteConfig = require('./siteConfig')
-
-console.log('---------------------------')
-exports.sourceNodes = async ({
-  actions,
-  createNodeId,
-  createContentDigest,
-}) => {
-  const query = await Promise.resolve(require('./tsDocGen').data)
-  /*fs.writeFileSync(
-    path.resolve(__dirname, '_build', '_doc', 'sampleDoc.json'),
-    JSON.stringify(query, null, 2)
-  )
-  query.forEach((item, index) => {
-    const nodeMeta = {
-      id: createNodeId(`myDoc-${index}`),
-      parent: null,
-      children: [],
-      internal: {
-        type: `myDoc`,
-        content: JSON.stringify(item),
-        contentDigest: createContentDigest(item),
-      },
-    }
-    const node = Object.assign({}, item, nodeMeta)
-
-    const { createNode } = actions
-    createNode(node)
-  })
- */
-  // or, If we want to pass the whole big generated json
-  const nodeMetaTS = {
-    id: createNodeId(`tsDocGen`),
-    parent: null,
-    children: [],
-    internal: {
-      type: `tsDocGen`,
-      content: JSON.stringify(query),
-      contentDigest: createContentDigest(query),
-    },
-  }
-  const tsDocNode = Object.assign({}, query, nodeMetaTS)
-  const { createNode } = actions
-  createNode(tsDocNode)
-}
 
 exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {
   const config = getConfig()
@@ -115,20 +70,6 @@ exports.onCreateNode = ({ node, actions, getNode, createNodeId }) => {
 
 exports.createPages = async ({ graphql, actions, getNode }) => {
   const { createPage } = actions
-
-  // ----------- API from TS Ported Lib (avoiding graphql) --------------------------
-  const ApiFromTs = path.resolve('src/templates/apiFromTs.js')
-  const query = await Promise.resolve(require('./tsDocGen').data)
-
-  createPage({
-    path: `/docTS`,
-    component: ApiFromTs,
-    context: {
-      pageProps: query,
-    },
-  })
-  // ---------------------------------------------------------------------------------
-
   const docPage = path.resolve('src/templates/doc.js')
   const apiPage = path.resolve('src/templates/api.js')
   const examplePage = path.resolve('src/templates/example.js')
@@ -187,7 +128,27 @@ exports.createPages = async ({ graphql, actions, getNode }) => {
     const fileNode = getNode(node.parent.id)
     if (fileNode.sourceInstanceName !== 'api') return
     const { displayName: name, docblock } = node
-    if (!docblock) return
+    if (!docblock) {
+      if(
+        !(
+          name === 'BaseTable' ||
+          name === 'Column' ||
+          name === 'AutoResizer' ||
+          name === 'ColumnResizer' ||
+          name === 'ExpandIcon' ||
+          name === 'SortIndicator' ||
+          name === 'TableHeaderCell' ||
+          name === 'TableHeaderRow' ||
+          name === 'GridTable' ||
+          name === 'TableCell' ||
+          name === 'TableRow' ||
+          name === 'TableHeader' ||
+          name === 'AnotherColumn'
+        )
+       ) {
+         return 
+      }
+    }
     createPage({
       path: `/api/${name.toLowerCase()}`,
       component: apiPage,

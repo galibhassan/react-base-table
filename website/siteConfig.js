@@ -28,19 +28,55 @@ module.exports = {
   api: [
     {
       title: 'BaseTable',
-      path: '/api/basetable',
+      path: `/api/${`basetable`.toLowerCase()}`,
     },
     {
       title: 'Column',
-      path: '/api/column',
+      path: `/api/${`column`.toLowerCase()}`,
+    },
+    {
+      title: 'AnotherColumn',
+      path: `/api/${`AnotherColumn`.toLowerCase()}`,
     },
     {
       title: 'AutoResizer',
-      path: '/api/autoresizer',
+      path: `/api/${`autoresizer`.toLowerCase()}`,
     },
     {
       title: 'ColumnResizer',
-      path: '/api/columnresizer',
+      path: `/api/${`columnresizer`.toLowerCase()}`,
+    },
+    {
+      title: 'ExpandIcon',
+      path: `/api/${`expandIcon`.toLowerCase()}`,
+    },
+    {
+      title: 'SortIndicator',
+      path: `/api/${`sortIndicator`.toLowerCase()}`,
+    },
+    {
+      title: 'TableHeaderCell',
+      path: `/api/${`tableHeaderCell`.toLowerCase()}`,
+    },
+    {
+      title: 'TableHeaderRow',
+      path: `/api/${`TableHeaderRow`.toLowerCase()}`,
+    },
+    {
+      title: 'GridTable',
+      path: `/api/${`GridTable`.toLowerCase()}`,
+    },
+    {
+      title: 'TableCell',
+      path: `/api/${`TableCell`.toLowerCase()}`,
+    },
+    {
+      title: 'TableRow',
+      path: `/api/${`TableRow`.toLowerCase()}`,
+    },
+    {
+      title: 'TableHeader',
+      path: `/api/${`TableHeader`.toLowerCase()}`,
     },
   ],
   examples: [
