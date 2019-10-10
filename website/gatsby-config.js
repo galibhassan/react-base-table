@@ -75,6 +75,6 @@ module.exports = {
         plugins: ['gatsby-remark-copy-linked-files'],
       },
     },
-    'gatsby-transformer-react-docgen-typescript'
+    'gatsby-transformer-react-docgen-typescript',
   ],
 }

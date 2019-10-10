@@ -1,51 +1,53 @@
-"use strict";
-const fs = require('fs');
+const fs = require('fs')
 const path = require('path')
 var tsxParser = require('react-docgen-typescript')
 // See if there is a tsconfig.json; if so, use that
 try {
-  tsxParser = tsxParser.withDefaultConfig(
-    {
+  tsxParser = tsxParser.withDefaultConfig({
     propFilter(prop) {
       if (prop.parent) {
         return !prop.parent.fileName.includes('node_modules')
       }
       return true
     },
-  }
-  )
+  })
 } catch (err) {
   console.log('Error in initiating react-docgen-typescript: ', err)
 }
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+var _interopRequireDefault = require(`@babel/runtime/helpers/interopRequireDefault`)
 
-exports.__esModule = true;
-exports.default = onCreateNode;
+exports.__esModule = true
+exports.default = onCreateNode
 
-var _parse = _interopRequireDefault(require("./parse"));
+var _parse = _interopRequireDefault(require(`./parse`))
 
-const propsId = (parentId, name) => `${parentId}--ComponentProp-${name}`;
+const propsId = (parentId, name) => `${parentId}--ComponentProp-${name}`
 
-const descId = parentId => `${parentId}--ComponentDescription`;
+const descId = parentId => `${parentId}--ComponentDescription`
 
 function canParse(node) {
-  return node && 
-    (node.internal.mediaType === `application/javascript` || 
-    // TypeScript doesn't really have a mime type and .ts files are a media file :/
-    // node.internal.mediaType === `application/octet-stream` ||
-    node.internal.mediaType === `application/typescript` || 
-    node.internal.mediaType === `text/jsx` || 
-    node.internal.mediaType === `text/tsx` || 
-    node.extension === `tsx` || 
-    node.extension === `ts`);
+  return (
+    node &&
+    (node.internal.mediaType === `application/javascript` ||
+      // TypeScript doesn't really have a mime type and .ts files are a media file :/
+      node.internal.mediaType === `application/typescript` ||
+      node.internal.mediaType === `text/jsx` ||
+      node.internal.mediaType === `text/tsx` ||
+      node.extension === `tsx` ||
+      node.extension === `ts`)
+  )
 }
 
-function createDescriptionNode(node, entry, actions, createNodeId, createContentDigest) {
-  const {
-    createNode
-  } = actions;
-  delete node.description;
+function createDescriptionNode(
+  node,
+  entry,
+  actions,
+  createNodeId,
+  createContentDigest
+) {
+  const { createNode } = actions
+  delete node.description
   const descriptionNode = {
     id: createNodeId(descId(node.id)),
     parent: node.id,
@@ -55,23 +57,29 @@ function createDescriptionNode(node, entry, actions, createNodeId, createContent
       type: `ComponentDescription`,
       mediaType: `text/markdown`,
       content: entry.description,
-      contentDigest: createContentDigest(entry.description)
-    }
-  };
-  node.description___NODE = descriptionNode.id;
-  node.children = node.children.concat([descriptionNode.id]);
-  createNode(descriptionNode);
-  return node;
+      contentDigest: createContentDigest(entry.description),
+    },
+  }
+  node.description___NODE = descriptionNode.id
+  node.children = node.children.concat([descriptionNode.id])
+  createNode(descriptionNode)
+  return node
 }
 
-function createPropNodes(node, component, actions, createNodeId, createContentDigest) {
-  const { createNode } = actions;
+function createPropNodes(
+  node,
+  component,
+  actions,
+  createNodeId,
+  createContentDigest
+) {
+  const { createNode } = actions
 
-  let children = new Array(component.props.length);
+  let children = new Array(component.props.length)
 
   let propNames
   let currentProps
-  if(Array.isArray(component.props)) {
+  if (Array.isArray(component.props)) {
     currentProps = component.props
   } else {
     propNames = Object.keys(component.props)
@@ -80,69 +88,78 @@ function createPropNodes(node, component, actions, createNodeId, createContentDi
     })
   }
 
-
-  currentProps.length > 0 & currentProps.forEach((prop, i) => {
-    let propNodeId = propsId(node.id, prop.name);
-    let content = JSON.stringify(prop);
-    let propNode = Object.assign({}, prop, {
-      id: createNodeId(propNodeId),
-      children: [],
-      parent: node.id,
-      parentType: prop.type,
-      internal: {
-        type: `ComponentProp`,
-        contentDigest: createContentDigest(content)
-      }
-    });
-    children[i] = propNode.id;
-    propNode = createDescriptionNode(propNode, prop, actions, createNodeId, createContentDigest);
-    createNode(propNode);
-  });
-  node.props___NODE = children;
-  node.children = node.children.concat(children);
-  return node;
+  currentProps.length > 0 &&
+    currentProps.forEach((prop, i) => {
+      let propNodeId = propsId(node.id, prop.name)
+      let content = JSON.stringify(prop)
+      let propNode = Object.assign({}, prop, {
+        id: createNodeId(propNodeId),
+        children: [],
+        parent: node.id,
+        parentType: prop.type,
+        internal: {
+          type: `ComponentProp`,
+          contentDigest: createContentDigest(content),
+        },
+      })
+      children[i] = propNode.id
+      propNode = createDescriptionNode(
+        propNode,
+        prop,
+        actions,
+        createNodeId,
+        createContentDigest
+      )
+      createNode(propNode)
+    })
+  node.props___NODE = children
+  node.children = node.children.concat(children)
+  return node
 }
 
-async function onCreateNode({
-  node,
-  loadNodeContent,
-  actions,
-  createNodeId,
-  reporter,
-  createContentDigest
-}, pluginOptions) {
-  const {
-    createNode,
-    createParentChildLink
-  } = actions;
+async function onCreateNode(
+  {
+    node,
+    loadNodeContent,
+    actions,
+    createNodeId,
+    reporter,
+    createContentDigest,
+  },
+  pluginOptions
+) {
+  const { createNode, createParentChildLink } = actions
 
-  if (!canParse(node)) return;
+  if (!canParse(node)) return
 
-  const content = await loadNodeContent(node);
-  let components;
+  const content = await loadNodeContent(node)
+  let components
 
-  const filepath = path.resolve(node.absolutePath);
+  const filepath = path.resolve(node.absolutePath)
   try {
     if (
-      filepath.includes('.tsx') && 
-      !(filepath.includes('utils.tsx')) &&
-      !(filepath.includes('examples')) &&
-      !(filepath.includes('.spec'))
+      !filepath.includes('examples') &&
+      (filepath.includes('.ts') || filepath.includes('.tsx'))
     ) {
       console.log('parsing: ', filepath)
       components = tsxParser.parse(filepath)
     } else {
-      components = (0, _parse.default)(content, node, pluginOptions);
+      components = (0, _parse.default)(content, node, pluginOptions)
     }
   } catch (err) {
-    reporter.error(`There was a problem parsing component metadata for file: "${node.relativePath}"`, err);
-    return;
+    reporter.error(
+      `There was a problem parsing component metadata for file: "${
+        node.relativePath
+      }"`,
+      err
+    )
+    return
   }
 
   components.forEach(component => {
-    const strContent = JSON.stringify(component);
-    const contentDigest = createContentDigest(strContent);
-    const nodeId = `${node.id}--${component.displayName}--ComponentMetadata`;
+    const strContent = JSON.stringify(component)
+    const contentDigest = createContentDigest(strContent)
+    const nodeId = `${node.id}--${component.displayName}--ComponentMetadata`
     let metadataNode = Object.assign({}, component, {
       props: null,
       // handled by the prop node creation
@@ -151,25 +168,35 @@ async function onCreateNode({
       parent: node.id,
       internal: {
         contentDigest,
-        type: `ComponentMetadata`
-      }
-    });
+        type: `ComponentMetadata`,
+      },
+    })
     createParentChildLink({
       parent: node,
-      child: metadataNode
-    });
-    metadataNode = createPropNodes(metadataNode, component, actions, createNodeId, createContentDigest);
-    metadataNode = createDescriptionNode(metadataNode, component, actions, createNodeId, createContentDigest);
+      child: metadataNode,
+    })
+    metadataNode = createPropNodes(
+      metadataNode,
+      component,
+      actions,
+      createNodeId,
+      createContentDigest
+    )
+    metadataNode = createDescriptionNode(
+      metadataNode,
+      component,
+      actions,
+      createNodeId,
+      createContentDigest
+    )
 
-    if(metadataNode.children) {
-      for(let i=0; i<metadataNode.children.length; i++) {
-        if(metadataNode.children[i] === undefined) {
+    if (metadataNode.children) {
+      for (let i = 0; i < metadataNode.children.length; i++) {
+        if (metadataNode.children[i] === undefined) {
           metadataNode.children.splice(i, 1)
         }
       }
     }
-      
-    createNode(metadataNode);
-  });
+    createNode(metadataNode)
+  })
 }
-

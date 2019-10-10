@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const _ = require('lodash')
-const {findFileWithExtension} = require('./utilsNode');
+const { findFileWithExtension } = require('./utilsNode')
 const siteConfig = require('./siteConfig')
 
 exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {
@@ -125,10 +125,9 @@ exports.createPages = async ({ graphql, actions, getNode }) => {
     })
   })
 
-  const docDisplayNames = findFileWithExtension('tsx').map( item => {
+  const docDisplayNames = findFileWithExtension('tsx').map(item => {
     return path.basename(item).replace('.tsx', '')
   })
-
 
   result.data.allComponentMetadata.edges.forEach(edge => {
     const node = edge.node
@@ -140,7 +139,7 @@ exports.createPages = async ({ graphql, actions, getNode }) => {
         return displayNameItem === name
       })
 
-      if(!currentDisplayNameMatch) {
+      if (!currentDisplayNameMatch) {
         return
       }
     }
