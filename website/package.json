@@ -58,8 +58,7 @@
     "develop": "gatsby develop",
     "serve": "gatsby serve",
     "format": "prettier --write 'src/**/*.{js,css}'",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "yarn build:typescript"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "lint-staged": {
     "*.js": [
